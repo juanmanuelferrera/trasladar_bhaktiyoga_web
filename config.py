@@ -83,6 +83,25 @@ FEATURED_IMAGES = {
     },
 }
 
+# Manual card cover images (notion_id -> /assets/filename)
+# For pages that don't have Notion cover images
+MANUAL_CARD_COVERS = {
+    "42bde06312f04b1ba7a3c4887b4af74f": "/assets/manual-del-bhakta-cover.png",
+    "364ca98f8f7a4f23a502d7737356d6c8": "/assets/arsa-prayoga-cover.png",
+    "37a84db2095e4657ab0a69980134103f": "/assets/arsa-prayoga-cover.png",
+}
+
+# Extra HTML content to append to specific pages (by slug)
+CONTENT_APPEND = {
+    "/contenido/prabhupada-now/": (
+        '<a href="https://a.co/d/09WCi1PA" class="external-link-card" '
+        'target="_blank" rel="noopener noreferrer">'
+        '<span class="external-link-card__icon">📖</span>'
+        '<span class="external-link-card__label">Comprar en Amazon</span>'
+        '</a>'
+    ),
+}
+
 # Pages to skip (not public)
 SKIP_PAGES = {
     "Se ha recibido tu donativo",

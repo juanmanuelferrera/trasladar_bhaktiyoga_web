@@ -4,7 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ title }} | {{ site_name }}</title>
-  <meta name="description" content="{{ site_tagline }}">
+  <meta name="description" content="{{ meta_description | default(site_tagline) }}">
+
+  <!-- Canonical URL -->
+  {% if canonical_url %}<link rel="canonical" href="{{ canonical_url }}">{% endif %}
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="{{ title }} | {{ site_name }}">
+  <meta property="og:description" content="{{ meta_description | default(site_tagline) }}">
+  <meta property="og:type" content="website">
+  {% if canonical_url %}<meta property="og:url" content="{{ canonical_url }}">{% endif %}
+  {% if og_image %}<meta property="og:image" content="{{ og_image }}">{% endif %}
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:site_name" content="{{ site_name }}">
+
+  <!-- Favicon -->
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 
   <!-- Self-hosted fonts -->
   <link rel="stylesheet" href="/css/fonts.css">
@@ -15,6 +30,7 @@
   <link rel="stylesheet" href="/css/notion-compat.css">
 </head>
 <body class="page-type--{{ page_type | default('article') }}">
+  <a href="#main-content" class="skip-link">Saltar al contenido</a>
 
   <!-- ===== Site Header ===== -->
   <header class="site-header" role="banner">
@@ -109,7 +125,7 @@
             <li><a href="/blog/">Blog</a></li>
             <li><a href="/libreria/">Librería</a></li>
             <li><a href="/curso-de-bhakti-yoga/">Curso de Bhakti Yoga</a></li>
-            <li><a href="/prabhupada/">Prabhupada</a></li>
+            <li><a href="/a-c-bhaktivedanta-swami-prabhupada/">Srila Prabhupada</a></li>
           </ul>
         </div>
 

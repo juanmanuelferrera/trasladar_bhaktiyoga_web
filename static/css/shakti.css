@@ -16,7 +16,7 @@
 
   /* Text */
   --text-dark: #270D0D;
-  --text-muted: #A49999;
+  --text-muted: #7A6B6B;
   --text-light: #FFFFFF;
 
   /* Accents */
@@ -439,7 +439,7 @@ hr,
   color: var(--text-light);
   background-color: var(--accent-primary);
   border: none;
-  border-radius: 0;
+  border-radius: 4px;
   padding: calc(0.667em + 2px) calc(1.333em + 2px);
   text-decoration: none;
   transition: background-color var(--transition);
@@ -826,8 +826,13 @@ hr,
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 3rem;
-  text-align: center;
+  text-align: left;
   color: var(--text-muted);
+}
+
+.hub-intro > p:first-child,
+.hub-intro > .section-title {
+  text-align: center;
 }
 
 /* --------------------------------------------------------------------------
@@ -842,7 +847,7 @@ hr,
   color: var(--text-light);
   background-color: var(--accent-primary);
   border: none;
-  border-radius: 0;
+  border-radius: 4px;
   padding: calc(0.667em + 2px) calc(1.333em + 2px);
   cursor: pointer;
   text-decoration: none;
@@ -871,7 +876,7 @@ hr,
   color: var(--accent-primary);
   background-color: transparent;
   border: 1.5px solid var(--accent-primary);
-  border-radius: 0;
+  border-radius: 4px;
   padding: calc(0.667em + 2px) calc(1.333em + 2px);
   cursor: pointer;
   text-decoration: none;
@@ -1350,3 +1355,118 @@ hr,
 .mt-2 { margin-top: 1rem; }
 .mt-3 { margin-top: 1.5rem; }
 .mt-4 { margin-top: 2rem; }
+
+/* --------------------------------------------------------------------------
+   Skip to Content Link (accessibility)
+   -------------------------------------------------------------------------- */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 9999;
+  background: var(--accent-primary);
+  color: var(--text-light);
+  padding: 0.75rem 1.5rem;
+  border-radius: 0 0 4px 4px;
+  font-family: var(--font-nav);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Focus Visible (keyboard navigation)
+   -------------------------------------------------------------------------- */
+:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+a:focus-visible {
+  border-radius: 2px;
+}
+
+button:focus-visible {
+  border-radius: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   External Link Card (replaces raw URL source blocks)
+   -------------------------------------------------------------------------- */
+.external-link-card {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  margin: 0.5rem 0;
+  border: 1px solid var(--divider);
+  border-radius: var(--card-radius);
+  background: var(--bg-secondary);
+  color: var(--text-dark);
+  text-decoration: none;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  transition: box-shadow var(--transition), border-color var(--transition), transform var(--transition);
+}
+
+.external-link-card:hover {
+  box-shadow: var(--card-shadow);
+  border-color: var(--accent-primary);
+  transform: translateY(-1px);
+  text-decoration: none;
+}
+
+.external-link-card__icon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.external-link-card__label {
+  color: var(--accent-primary);
+  font-family: var(--font-nav);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.external-link-card--stripe {
+  border-color: #635BFF;
+}
+
+.external-link-card--stripe:hover {
+  border-color: #635BFF;
+  background: #F8F7FF;
+}
+
+.external-link-card--stripe .external-link-card__label {
+  color: #635BFF;
+}
+
+/* --------------------------------------------------------------------------
+   Table Buy Link (Amazon/Leanpub in collection tables)
+   -------------------------------------------------------------------------- */
+.table-buy-link {
+  display: inline-block;
+  padding: 0.2em 0.75em;
+  background: var(--accent-primary);
+  color: var(--text-light) !important;
+  border-radius: 3px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  transition: background-color var(--transition);
+}
+
+.table-buy-link:hover {
+  background: var(--accent-primary-hover);
+  text-decoration: none;
+  color: var(--text-light) !important;
+}

@@ -5,20 +5,74 @@ Build bhaktiyoga.es static site from Notion HTML exports.
 Usage: python3 build.py
 """
 import os
+import re
 import shutil
 import sys
+import urllib.parse
 
 from jinja2 import Environment, FileSystemLoader
 
 from config import (
     MAPA_DIR, TEMPLATES_DIR, OUTPUT_DIR, STATIC_DIR,
     MAIN_NAV, SITE_NAME, SITE_TAGLINE, SITE_CIF, SITE_LANG,
-    CONTACT_EMAIL, CONTACT_TELEGRAM, HUB_SECTIONS, FEATURED_IMAGES,
+    SITE_URL, CONTACT_EMAIL, CONTACT_TELEGRAM, HUB_SECTIONS, FEATURED_IMAGES,
+    MANUAL_CARD_COVERS, CONTENT_APPEND,
 )
 from slugify_pages import build_slug_map
 from assets_copy import build_asset_map, copy_all_assets, copy_existing_assets, copy_static_files
 from parser import parse_notion_html
 from linker import rewrite_links
+
+
+def _extract_notion_id_from_url(url):
+    """Extract 32-char Notion ID from a relative Notion URL."""
+    decoded = urllib.parse.unquote(url)
+    filename = decoded.rstrip('/').split('/')[-1]
+    m = re.search(r'([a-f0-9]{32})\.html$', filename)
+    if m:
+        return m.group(1)
+    return None
+
+
+def _build_cover_map(file_map, asset_map):
+    """Pre-scan all pages to build {notion_id: image_url} map.
+
+    Prefers local asset URLs; falls back to external URLs (e.g. Unsplash).
+    """
+    cover_map = {}
+    for notion_id, file_path in file_map.items():
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+
+        # Find all cover image tags (some pages have both local and external)
+        matches = re.findall(
+            r'<img\s+class="page-cover-image"\s+src="([^"]+)"', content
+        )
+        if not matches:
+            continue
+
+        # Prefer local images over external
+        local_url = None
+        external_url = None
+        for src in matches:
+            if src.startswith('http'):
+                if not external_url:
+                    external_url = src.replace('&amp;', '&')
+            else:
+                decoded = urllib.parse.unquote(src)
+                abs_img = os.path.normpath(
+                    os.path.join(os.path.dirname(file_path), decoded)
+                )
+                rel_img = os.path.relpath(abs_img, MAPA_DIR)
+                if rel_img in asset_map and not local_url:
+                    local_url = asset_map[rel_img]
+
+        if local_url:
+            cover_map[notion_id] = local_url
+        elif external_url:
+            cover_map[notion_id] = external_url
+
+    return cover_map
 
 
 def main():
@@ -43,6 +97,12 @@ def main():
     print(f"  Found {len(asset_map)} media files")
     copy_all_assets(asset_map)
     copy_existing_assets()
+
+    # Step 3b: Build cover image map for card images
+    print("  Building cover image map...")
+    cover_map = _build_cover_map(file_map, asset_map)
+    cover_map.update(MANUAL_CARD_COVERS)
+    print(f"  Found {len(cover_map)} pages with cover images")
 
     # Step 4: Copy static files (CSS, JS)
     print("\n[4/7] Copying static files...")
@@ -97,7 +157,6 @@ def main():
             # Rewrite cover image path
             cover_image = page_data['cover_image']
             if cover_image and not cover_image.startswith('http'):
-                import urllib.parse
                 decoded = urllib.parse.unquote(cover_image)
                 abs_img = os.path.normpath(
                     os.path.join(os.path.dirname(file_path), decoded)
@@ -106,8 +165,15 @@ def main():
                 if rel_img in asset_map:
                     cover_image = asset_map[rel_img]
 
-            # Rewrite card URLs
+            # Inject card images from cover_map (before URL rewrite)
             cards = page_data.get('cards', [])
+            for card in cards:
+                if card.get('url') and not card.get('image'):
+                    card_nid = _extract_notion_id_from_url(card['url'])
+                    if card_nid and card_nid in cover_map:
+                        card['image'] = cover_map[card_nid]
+
+            # Rewrite card URLs
             for card in cards:
                 if card.get('url'):
                     from linker import _rewrite_href
@@ -131,6 +197,17 @@ def main():
                 )
                 content = portrait_html + content
 
+            # Append extra content for specific pages
+            if slug in CONTENT_APPEND:
+                content += CONTENT_APPEND[slug]
+
+            # Generate per-page meta description from first paragraph
+            meta_description = _extract_meta_description(content)
+            canonical_url = SITE_URL + slug
+            og_image = cover_image if cover_image and cover_image.startswith('/') else None
+            if og_image:
+                og_image = SITE_URL + og_image
+
             # Determine current section for nav highlighting
             current_section = slug.strip('/').split('/')[0] if slug != '/' else ''
 
@@ -152,6 +229,9 @@ def main():
                 breadcrumb=breadcrumb,
                 current_section=current_section,
                 cards=cards,
+                meta_description=meta_description,
+                canonical_url=canonical_url,
+                og_image=og_image,
                 **base_context,
             )
 
@@ -181,6 +261,9 @@ def main():
             page_type='home',
             cards=[],
             content='',
+            meta_description=SITE_TAGLINE,
+            canonical_url=SITE_URL + '/',
+            og_image=SITE_URL + '/assets/hero-bg.webp',
             **base_context,
         )
         output_path = os.path.join(OUTPUT_DIR, 'index.html')
@@ -193,7 +276,12 @@ def main():
         traceback.print_exc()
         errors += 1
 
-    # Step 8: Copy English placeholder
+    # Step 8: Generate sitemap and robots.txt
+    print("\n[8/9] Generating SEO files...")
+    _generate_sitemap(slug_map)
+    _generate_robots_txt()
+
+    # Step 9: Copy English placeholder
     en_src = os.path.join(TEMPLATES_DIR, 'en_index.html')
     en_dst = os.path.join(OUTPUT_DIR, 'en', 'index.html')
     os.makedirs(os.path.dirname(en_dst), exist_ok=True)
@@ -211,6 +299,54 @@ def main():
         print(f"\nWarning: {errors} errors occurred. Check output above.")
 
     return 0 if errors == 0 else 1
+
+
+def _extract_meta_description(html_content):
+    """Extract first meaningful paragraph text from HTML content for meta description."""
+    from bs4 import BeautifulSoup
+    soup = BeautifulSoup(html_content, 'html.parser')
+    for p in soup.find_all('p'):
+        text = p.get_text(strip=True)
+        if len(text) > 40:
+            # Truncate to ~160 chars at word boundary
+            if len(text) > 160:
+                text = text[:157].rsplit(' ', 1)[0] + '...'
+            return text
+    return ''
+
+
+def _generate_sitemap(slug_map):
+    """Generate sitemap.xml from all built pages."""
+    lines = ['<?xml version="1.0" encoding="UTF-8"?>']
+    lines.append('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')
+
+    # Homepage
+    lines.append(f'  <url><loc>{SITE_URL}/</loc><priority>1.0</priority></url>')
+
+    for slug in sorted(slug_map.values()):
+        if slug == '/' or slug == '/mapa/':
+            continue
+        priority = '0.8' if slug.count('/') <= 2 else '0.6'
+        lines.append(f'  <url><loc>{SITE_URL}{slug}</loc><priority>{priority}</priority></url>')
+
+    lines.append('</urlset>')
+
+    sitemap_path = os.path.join(OUTPUT_DIR, 'sitemap.xml')
+    with open(sitemap_path, 'w', encoding='utf-8') as f:
+        f.write('\n'.join(lines))
+    print(f"  Generated sitemap.xml ({len(slug_map) + 1} URLs)")
+
+
+def _generate_robots_txt():
+    """Generate robots.txt."""
+    content = f"""User-agent: *
+Allow: /
+Sitemap: {SITE_URL}/sitemap.xml
+"""
+    robots_path = os.path.join(OUTPUT_DIR, 'robots.txt')
+    with open(robots_path, 'w', encoding='utf-8') as f:
+        f.write(content)
+    print("  Generated robots.txt")
 
 
 def _build_breadcrumb(slug, title):

@@ -95,6 +95,12 @@ def copy_static_files():
             shutil.rmtree(dest_fonts)
         shutil.copytree(fonts_dir, dest_fonts)
 
+    # Copy root-level static files (favicon.svg, etc.) to output root
+    for f in os.listdir(STATIC_DIR):
+        src = os.path.join(STATIC_DIR, f)
+        if os.path.isfile(src):
+            shutil.copy2(src, os.path.join(OUTPUT_DIR, f))
+
 
 def build_asset_map():
     """

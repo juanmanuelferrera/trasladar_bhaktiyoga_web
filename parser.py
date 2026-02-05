@@ -92,6 +92,18 @@ def parse_notion_html(html_content):
     # Beautify ugly S3/Notion download links
     _beautify_download_links(page_body)
 
+    # Beautify raw Amazon/Leanpub URLs in table cells
+    _beautify_table_urls(page_body)
+
+    # Beautify raw external URLs (Stripe, archive.org, Indify, etc.)
+    _beautify_raw_urls(page_body)
+
+    # Strip Bizum donation images
+    _strip_bizum_images(page_body)
+
+    # Strip empty wrapper divs
+    _strip_empty_divs(page_body)
+
     # Detect hub pages and extract cards
     is_hub = False
     cards = []
@@ -114,6 +126,16 @@ def parse_notion_html(html_content):
         if len(link_to_pages) > 3:
             is_hub = True
             cards = _extract_cards_from_links(link_to_pages)
+
+    # If hub page, strip the collection table from visible content
+    # (cards are already extracted and will be rendered as a card grid)
+    if is_hub and collection_table:
+        # Remove the collection-content wrapper div (table + heading)
+        for coll_div in page_body.find_all('div', class_='collection-content'):
+            coll_div.decompose()
+        # Also remove standalone collection tables
+        for table in page_body.find_all('table', class_='collection-content'):
+            table.decompose()
 
     # Get cleaned inner HTML
     content = page_body.decode_contents()
@@ -177,10 +199,11 @@ def _unwrap_display_contents(soup):
 
 
 def _strip_empty_paragraphs(soup):
-    """Remove paragraphs that are empty or contain only whitespace."""
+    """Remove paragraphs that are empty, whitespace-only, or placeholder text."""
+    placeholder_texts = {'', '\xa0', 'website'}
     for p in soup.find_all('p'):
         text = p.get_text(strip=True)
-        if not text or text == '\xa0':
+        if text.lower() in placeholder_texts:
             # Check if it has no meaningful child elements (images, etc.)
             has_meaningful = any(
                 child.name in ('img', 'a', 'iframe', 'video', 'audio')
@@ -214,10 +237,13 @@ def _extract_cards_from_table(table):
             if icon_img:
                 icon = icon_img.get('src', '')
 
-        # Check for description in other cells
+        # Check for description in other cells (skip timestamp/date columns)
         description = ''
         if len(cells) > 1:
-            description = cells[1].get_text(strip=True)
+            cell_text = cells[1].get_text(strip=True)
+            # Skip Notion timestamp values like "@September 6, 2021 6:36 PM"
+            if cell_text and not cell_text.startswith('@'):
+                description = cell_text
 
         if title:
             cards.append({
@@ -505,3 +531,116 @@ def _beautify_download_links(soup):
             parent_figure = source_div.find_parent('figure')
             if parent_figure:
                 parent_figure['class'] = parent_figure.get('class', []) + ['download-figure']
+
+
+def _strip_bizum_images(soup):
+    """Remove Bizum donation images that leak through footer stripping."""
+    for fig in list(soup.find_all('figure', class_='image')):
+        img = fig.find('img')
+        if img and 'bizum' in img.get('src', '').lower():
+            parent = fig.parent
+            fig.decompose()
+            # Remove empty wrapper div too
+            if parent and parent.name == 'div' and not parent.get_text(strip=True):
+                parent.decompose()
+
+
+def _strip_empty_divs(soup):
+    """Remove empty <div></div> wrappers that add dead whitespace."""
+    for div in list(soup.find_all('div')):
+        if not div.get_text(strip=True) and not div.find_all(['img', 'iframe', 'video', 'audio', 'svg', 'figure', 'table', 'a']):
+            # Don't remove divs with meaningful classes
+            classes = div.get('class', [])
+            if not any(c for c in classes if c not in ('', 'indented')):
+                div.decompose()
+
+
+def _beautify_table_urls(soup):
+    """Replace raw Amazon/Leanpub URLs in table cells with styled short links."""
+    for a_tag in soup.find_all('a', class_='url-value'):
+        href = a_tag.get('href', '')
+        if 'amazon' in href:
+            a_tag.string = 'Amazon'
+            a_tag['class'] = ['table-buy-link']
+        elif 'leanpub' in href:
+            a_tag.string = 'Leanpub'
+            a_tag['class'] = ['table-buy-link']
+        a_tag['target'] = '_blank'
+        a_tag['rel'] = 'noopener noreferrer'
+
+
+# URL label map for beautifying raw external URLs
+_RAW_URL_LABELS = {
+    'buy.stripe.com': ('Comprar', 'stripe'),
+    'indify.co': None,  # Remove entirely (widget placeholder)
+    'archive.org': ('Escuchar en Archive.org', 'audio'),
+    'audio.iskcondesiretree': ('Escuchar audio', 'audio'),
+    'open.spotify.com': ('Escuchar en Spotify', 'audio'),
+    'dropbox.com': ('Descargar documento', 'file'),
+    'leanpub.com': ('Comprar e-book', 'book'),
+    'prabhupadavani.org': ('Visitar Prabhupadavani.org', 'link'),
+}
+
+
+def _beautify_raw_urls(soup):
+    """Transform raw external URLs in <div class='source'> into styled link cards."""
+    for figure in list(soup.find_all('figure')):
+        source_div = figure.find('div', class_='source')
+        if not source_div:
+            continue
+        a_tag = source_div.find('a', href=True)
+        if not a_tag:
+            continue
+
+        href = a_tag['href']
+        link_text = a_tag.get_text(strip=True)
+
+        # Skip already-processed download cards and YouTube embeds
+        if 'download-card' in a_tag.get('class', []):
+            continue
+        if 'youtube' in href or 'youtu.be' in href:
+            continue
+
+        # Find matching domain
+        matched_label = None
+        matched_type = 'link'
+        for domain, config in _RAW_URL_LABELS.items():
+            if domain in href or domain in link_text:
+                if config is None:
+                    # Remove entirely (e.g. Indify widget placeholders)
+                    figure.decompose()
+                    matched_label = '__removed__'
+                    break
+                matched_label, matched_type = config
+                break
+
+        if matched_label == '__removed__':
+            continue
+
+        if not matched_label:
+            # For unrecognized URLs, create a generic styled link
+            if href.startswith('http'):
+                matched_label = 'Visitar enlace'
+                matched_type = 'link'
+            else:
+                continue
+
+        # Build styled external link card
+        icon_map = {
+            'stripe': '💳',
+            'audio': '🎵',
+            'book': '📖',
+            'file': '📄',
+            'link': '🔗',
+        }
+        icon = icon_map.get(matched_type, '🔗')
+
+        card_html = (
+            f'<a href="{href}" class="external-link-card external-link-card--{matched_type}" '
+            f'target="_blank" rel="noopener noreferrer">'
+            f'<span class="external-link-card__icon">{icon}</span>'
+            f'<span class="external-link-card__label">{matched_label}</span>'
+            f'</a>'
+        )
+        new_tag = BeautifulSoup(card_html, 'html.parser')
+        figure.replace_with(new_tag)
