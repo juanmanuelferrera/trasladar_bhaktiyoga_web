@@ -26,6 +26,8 @@
       color: #232323;
       background: #ffffff;
       overflow-x: hidden;
+      margin: 0;
+      padding: 0;
     }
 
     /* Typography - Mobirise display sizes */
@@ -45,20 +47,19 @@
       font-size: 1.1rem;
       line-height: 1.7;
     }
-    @media (max-width: 768px) {
-      .display-1 { font-size: 2.8rem; }
-      .display-2 { font-size: 2.2rem; }
-      .display-5 { font-size: 1.3rem; }
-    }
-
     /* ---- Features section (cards) ---- */
     .features4 {
       padding: 6rem 0 2rem;
       background-color: #ffffff;
+      margin-top: 0;
     }
     .features4 .mbr-section-head {
-      margin-bottom: 0;
-      padding-bottom: 0;
+      margin: 0;
+      padding: 0;
+    }
+    .features4 .mbr-section-head h4 {
+      margin-top: 0;
+      padding-top: 0;
     }
     .features4 .item {
       margin-bottom: 2rem;
@@ -80,6 +81,7 @@
       height: auto;
       display: block;
       object-fit: cover;
+      max-width: 100%;
     }
     .features4 .item-content {
       flex-grow: 1;
@@ -191,6 +193,20 @@
     .site-footer-bar a:hover {
       text-decoration: underline;
     }
+
+    /* ---- Mobile overrides (must be last) ---- */
+    @media (max-width: 768px) {
+      .display-1 { font-size: 2.2rem; }
+      .display-2 { font-size: 1.8rem; }
+      .display-5 { font-size: 1.2rem; }
+      .features4 { padding: 1.5rem 0 0.5rem; }
+      .contacts1 { padding: 2rem 0 1.5rem; }
+    }
+    @media (max-width: 480px) {
+      .display-1 { font-size: 1.8rem; }
+      .display-2 { font-size: 1.5rem; }
+      .features4 { padding: 1rem 0 0.5rem; }
+    }
   </style>
 </head>
 <body>
@@ -212,7 +228,7 @@
                         <h5 class="item-title display-5"><strong>Quienes somos</strong></h5>
                         <h6 class="item-subtitle display-7 mt-1">Estamos aqui para servirte en tu exploracion del bhakti yoga.</h6>
                     </div>
-                    <div class="item-footer mt-2"><a href="/estatutos/" class="btn item-btn btn-info display-7">Saber mas &gt;</a></div>
+                    <div class="item-footer mt-2"><a href="/estatutos/" class="btn item-btn btn-info display-7">Saber más &gt;</a></div>
                 </div>
             </div>
             <div class="item col-12 col-md-6 col-lg-4">
@@ -224,7 +240,7 @@
                         <h5 class="item-title display-5"><strong>Contenido</strong></h5>
                         <h6 class="item-subtitle display-7 mt-1">Un universo de recursos: videos, fotos, musica, cursos gratuitos, manuales y mucho mas.</h6>
                     </div>
-                    <div class="item-footer mt-2"><a href="/contenido/" class="btn item-btn btn-warning display-7">Llevame &gt;</a></div>
+                    <div class="item-footer mt-2"><a href="/contenido/" class="btn item-btn btn-warning display-7">Llévame &gt;</a></div>
                 </div>
             </div>
             <div class="item col-12 col-md-6 col-lg-4">
@@ -236,7 +252,7 @@
                         <h5 class="item-title display-5"><strong>Libreria</strong></h5>
                         <h6 class="item-subtitle display-7 mt-1">Desde el famoso Bhagavad-gita hasta un libro de Cocina, tienes para elegir.</h6>
                     </div>
-                    <div class="item-footer mt-2"><a href="/libreria/" class="btn item-btn btn-success display-7">Muestrame &gt;</a></div>
+                    <div class="item-footer mt-2"><a href="/libreria/" class="btn item-btn btn-success display-7">Muéstrame &gt;</a></div>
                 </div>
             </div>
         </div>
