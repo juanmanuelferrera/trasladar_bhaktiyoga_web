@@ -1,0 +1,1027 @@
+/* ==========================================================================
+   Notion Compatibility Styles - bhaktiyoga.es
+   Translates Notion export CSS classes into the design system
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Callout Blocks
+   -------------------------------------------------------------------------- */
+.callout {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  background-color: var(--bg-secondary, #FFFFFF);
+  border: 1px solid var(--divider, #E5DFD6);
+  line-height: 1.65;
+}
+
+.callout .icon,
+.callout .callout-icon {
+  flex-shrink: 0;
+  font-size: 1.25rem;
+  line-height: 1.5;
+}
+
+.callout img.notion-static-icon {
+  width: 1.2em;
+  height: 1.2em;
+}
+
+.callout-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.callout p {
+  margin: 0 0 0.4em;
+}
+
+.callout p:last-child {
+  margin-bottom: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+  margin: 0 0 0.5rem;
+}
+
+/* --------------------------------------------------------------------------
+   Block Color Classes (background) - Notion to Design System
+   -------------------------------------------------------------------------- */
+.block-color-default {
+  color: inherit;
+  fill: inherit;
+}
+
+.block-color-gray {
+  color: rgba(120, 115, 108, 1);
+  fill: rgba(120, 115, 108, 1);
+}
+
+.block-color-brown {
+  color: rgba(148, 110, 82, 1);
+  fill: rgba(148, 110, 82, 1);
+}
+
+.block-color-orange {
+  color: var(--accent-copper, #B8856C);
+  fill: var(--accent-copper, #B8856C);
+}
+
+.block-color-yellow {
+  color: var(--accent-gold, #C4A265);
+  fill: var(--accent-gold, #C4A265);
+}
+
+.block-color-teal {
+  color: rgba(68, 138, 102, 1);
+  fill: rgba(68, 138, 102, 1);
+}
+
+.block-color-blue {
+  color: rgba(51, 116, 185, 1);
+  fill: rgba(51, 116, 185, 1);
+}
+
+.block-color-purple {
+  color: rgba(140, 95, 165, 1);
+  fill: rgba(140, 95, 165, 1);
+}
+
+.block-color-pink {
+  color: rgba(180, 68, 128, 1);
+  fill: rgba(180, 68, 128, 1);
+}
+
+.block-color-red {
+  color: var(--accent-olive, #BC2122);
+  fill: var(--accent-olive, #BC2122);
+}
+
+/* Background variants - using warm design-system-compatible tones */
+.block-color-default_background {
+  color: inherit;
+  fill: inherit;
+}
+
+.block-color-gray_background {
+  background: #F5F3EF;
+}
+
+.block-color-brown_background {
+  background: #F5EDE7;
+}
+
+.block-color-orange_background {
+  background: #FDF1E3;
+}
+
+.block-color-yellow_background {
+  background: #FDF6DC;
+}
+
+.block-color-teal_background {
+  background: #E8F1EB;
+}
+
+.block-color-blue_background {
+  background: #E5EFFA;
+}
+
+.block-color-purple_background {
+  background: #F1E8F5;
+}
+
+.block-color-pink_background {
+  background: #FAE8F0;
+}
+
+.block-color-red_background {
+  background: #FAEAE8;
+}
+
+/* --------------------------------------------------------------------------
+   Highlight Text Color Classes
+   -------------------------------------------------------------------------- */
+.highlight-default {
+  color: var(--text-dark, #270D0D);
+}
+
+.highlight-gray {
+  color: rgba(120, 115, 108, 1);
+  fill: rgba(120, 115, 108, 1);
+}
+
+.highlight-brown {
+  color: rgba(148, 110, 82, 1);
+  fill: rgba(148, 110, 82, 1);
+}
+
+.highlight-orange {
+  color: var(--accent-copper, #B8856C);
+  fill: var(--accent-copper, #B8856C);
+}
+
+.highlight-yellow {
+  color: var(--accent-gold, #C4A265);
+  fill: var(--accent-gold, #C4A265);
+}
+
+.highlight-teal {
+  color: rgba(68, 138, 102, 1);
+  fill: rgba(68, 138, 102, 1);
+}
+
+.highlight-blue {
+  color: rgba(51, 116, 185, 1);
+  fill: rgba(51, 116, 185, 1);
+}
+
+.highlight-purple {
+  color: rgba(140, 95, 165, 1);
+  fill: rgba(140, 95, 165, 1);
+}
+
+.highlight-pink {
+  color: rgba(180, 68, 128, 1);
+  fill: rgba(180, 68, 128, 1);
+}
+
+.highlight-red {
+  color: var(--accent-olive, #BC2122);
+  fill: var(--accent-olive, #BC2122);
+}
+
+/* Highlight background variants */
+.highlight-default_background {
+  color: var(--text-dark, #270D0D);
+}
+
+.highlight-gray_background {
+  background: #F5F3EF;
+  padding: 0.1em 0.25em;
+  border-radius: 3px;
+}
+
+.highlight-brown_background {
+  background: #F5EDE7;
+  padding: 0.1em 0.25em;
+  border-radius: 3px;
+}
+
+.highlight-orange_background {
+  background: #FDF1E3;
+  padding: 0.1em 0.25em;
+  border-radius: 3px;
+}
+
+.highlight-yellow_background {
+  background: #FDF6DC;
+  padding: 0.1em 0.25em;
+  border-radius: 3px;
+}
+
+.highlight-teal_background {
+  background: #E8F1EB;
+  padding: 0.1em 0.25em;
+  border-radius: 3px;
+}
+
+.highlight-blue_background {
+  background: #E5EFFA;
+  padding: 0.1em 0.25em;
+  border-radius: 3px;
+}
+
+.highlight-purple_background {
+  background: #F1E8F5;
+  padding: 0.1em 0.25em;
+  border-radius: 3px;
+}
+
+.highlight-pink_background {
+  background: #FAE8F0;
+  padding: 0.1em 0.25em;
+  border-radius: 3px;
+}
+
+.highlight-red_background {
+  background: #FAEAE8;
+  padding: 0.1em 0.25em;
+  border-radius: 3px;
+}
+
+/* --------------------------------------------------------------------------
+   Toggle Blocks (details/summary)
+   -------------------------------------------------------------------------- */
+details.toggle,
+.toggle > li > details {
+  border: 1px solid var(--divider, #E5DFD6);
+  border-radius: 6px;
+  margin: 0.75rem 0;
+  overflow: hidden;
+}
+
+details.toggle > summary,
+.toggle > li > details > summary {
+  padding: 0.875rem 1.25rem;
+  font-family: var(--font-heading, 'Roboto Slab', serif);
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: var(--bg-white, #FFFFFF);
+  color: var(--text-dark, #270D0D);
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color 0.3s ease;
+}
+
+details.toggle > summary::-webkit-details-marker,
+.toggle > li > details > summary::-webkit-details-marker {
+  display: none;
+}
+
+details.toggle > summary::before,
+.toggle > li > details > summary::before {
+  content: '';
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 7px solid var(--text-dark, #270D0D);
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+details.toggle[open] > summary::before,
+.toggle > li > details[open] > summary::before {
+  transform: rotate(90deg);
+}
+
+details.toggle > summary:hover,
+.toggle > li > details > summary:hover {
+  background-color: var(--bg-secondary, #FFFFFF);
+}
+
+details.toggle > :not(summary),
+.toggle > li > details > :not(summary) {
+  padding: 0.75rem 1.25rem 1rem;
+  border-top: 1px solid var(--divider, #E5DFD6);
+}
+
+/* Notion-style toggle list */
+ul.toggle {
+  padding-inline-start: 0;
+}
+
+ul.toggle > li {
+  list-style: none;
+}
+
+.toggle > li > details {
+  padding-left: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Column Layout
+   -------------------------------------------------------------------------- */
+.column-list {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.column {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+}
+
+@media (max-width: 768px) {
+  .column-list {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Lists
+   -------------------------------------------------------------------------- */
+.bulleted-list,
+ul.bulleted_list {
+  list-style: disc;
+  padding-inline-start: 1.75em;
+  margin: 0.5em 0;
+}
+
+.bulleted-list li,
+ul.bulleted_list li {
+  padding-left: 0.15em;
+  margin-bottom: 0.25em;
+  line-height: 1.65;
+}
+
+.numbered-list,
+ol.numbered_list {
+  list-style: decimal;
+  padding-inline-start: 1.75em;
+  margin: 0.5em 0;
+}
+
+.numbered-list li,
+ol.numbered_list li {
+  padding-left: 0.2em;
+  margin-bottom: 0.25em;
+  line-height: 1.65;
+}
+
+/* Nested lists */
+.bulleted-list .bulleted-list,
+.numbered-list .numbered-list,
+.bulleted-list .numbered-list,
+.numbered-list .bulleted-list {
+  margin-top: 0.25em;
+}
+
+/* To-do lists */
+ul.to-do-list {
+  padding-inline-start: 0;
+  list-style: none;
+}
+
+ul.to-do-list > li {
+  list-style: none;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-bottom: 0.3em;
+}
+
+.to-do-children-checked {
+  text-decoration: line-through;
+  opacity: 0.45;
+}
+
+/* --------------------------------------------------------------------------
+   Tables: collection-content
+   -------------------------------------------------------------------------- */
+table.collection-content {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  margin: 1.5rem 0;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+table.collection-content th {
+  background-color: var(--bg-dark, #270D0D);
+  color: var(--text-light, #FFFFFF);
+  font-family: var(--font-nav, 'Kumbh Sans', sans-serif);
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  white-space: nowrap;
+}
+
+table.collection-content td {
+  padding: 0.625rem 1rem;
+  border-bottom: 1px solid var(--divider, #E5DFD6);
+  color: var(--text-dark, #270D0D);
+  white-space: pre-wrap;
+  word-break: break-word;
+  vertical-align: top;
+}
+
+table.collection-content tr:nth-child(even) td {
+  background-color: var(--bg-secondary, #FFFFFF);
+}
+
+table.collection-content tr:hover td {
+  background-color: rgba(188, 33, 34, 0.04);
+}
+
+.collection-title {
+  display: inline-block;
+  margin-right: 1em;
+  font-family: var(--font-heading, 'Roboto Slab', serif);
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   Simple Table
+   -------------------------------------------------------------------------- */
+.simple-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  margin: 1.5rem 0;
+  border: 1px solid var(--divider, #E5DFD6);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.simple-table th,
+.simple-table td {
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  border: 1px solid var(--divider, #E5DFD6);
+  line-height: 1.5;
+  min-height: 1.5em;
+  min-width: 120px;
+}
+
+.simple-table th,
+.simple-table-header {
+  font-weight: 600;
+  color: var(--text-dark, #270D0D);
+}
+
+.simple-table-header-color {
+  background-color: var(--bg-secondary, #FFFFFF);
+  color: var(--text-dark, #270D0D);
+}
+
+/* Table responsive wrapper */
+@media (max-width: 768px) {
+  table.collection-content,
+  .simple-table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Bookmark (link preview card)
+   -------------------------------------------------------------------------- */
+.bookmark {
+  display: flex;
+  width: 100%;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid var(--divider, #E5DFD6);
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 1.5rem 0;
+  max-height: 8em;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.bookmark:hover {
+  box-shadow: var(--card-shadow, 0px 12px 45px rgba(0, 0, 0, 0.05));
+  border-color: rgba(39, 13, 13, 0.15);
+  text-decoration: none;
+}
+
+.bookmark-info {
+  flex: 4 1 180px;
+  padding: 0.875rem 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.bookmark-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.bookmark-title {
+  font-family: var(--font-heading, 'Roboto Slab', serif);
+  font-size: 0.875rem;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  height: 1.75em;
+  color: var(--text-dark, #270D0D);
+}
+
+.bookmark-description {
+  color: var(--text-muted, #A49999);
+  font-size: 0.75rem;
+  overflow: hidden;
+  max-height: 3em;
+  line-height: 1.5;
+  word-break: break-word;
+  margin-top: 0.25em;
+}
+
+.bookmark-href {
+  font-size: 0.75rem;
+  margin-top: 0.35em;
+  color: var(--text-muted, #A49999);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.bookmark-href img {
+  width: 14px;
+  height: 14px;
+}
+
+.bookmark-image {
+  width: 33%;
+  flex: 1 1 180px;
+  display: block;
+  object-fit: cover;
+}
+
+@media (max-width: 480px) {
+  .bookmark {
+    flex-direction: column;
+    max-height: none;
+  }
+
+  .bookmark-image {
+    width: 100%;
+    height: 160px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Code Blocks
+   -------------------------------------------------------------------------- */
+pre.code,
+.code {
+  background-color: #2A2A2A;
+  color: #F0E6E6;
+  border-radius: 6px;
+  padding: 1.25rem 1.5rem;
+  margin: 1.5rem 0;
+  overflow-x: auto;
+  font-family: 'SFMono-Regular', Menlo, Consolas, 'PT Mono', 'Liberation Mono', Courier, monospace;
+  font-size: 0.8125rem;
+  line-height: 1.65;
+  tab-size: 2;
+  -webkit-overflow-scrolling: touch;
+}
+
+.code > code {
+  background: none;
+  padding: 0;
+  font-size: 100%;
+  color: inherit;
+  border-radius: 0;
+}
+
+code {
+  background: rgba(39, 13, 13, 0.06);
+  color: var(--accent-primary, #BC2122);
+  border-radius: 3px;
+  padding: 0.15em 0.4em;
+  font-family: 'SFMono-Regular', Menlo, Consolas, 'PT Mono', 'Liberation Mono', Courier, monospace;
+  font-size: 0.85em;
+}
+
+.code-wrap {
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+/* --------------------------------------------------------------------------
+   Images & Figures
+   -------------------------------------------------------------------------- */
+figure.image,
+.image {
+  margin: 1.5rem 0;
+  text-align: center;
+  border: none;
+  padding: 0;
+}
+
+figure.image img,
+.image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--card-radius, 6px);
+  display: inline-block;
+}
+
+figcaption {
+  font-size: 0.8125rem;
+  color: var(--text-muted, #A49999);
+  margin-top: 0.625rem;
+  line-height: 1.5;
+  font-style: italic;
+}
+
+/* Page cover image (Notion) */
+.page-cover-image {
+  display: block;
+  object-fit: cover;
+  width: 100%;
+  max-height: 30vh;
+  border-radius: 0;
+}
+
+/* Page header icon */
+.page-header-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+  margin-top: -0.72em;
+  margin-left: 0.07em;
+}
+
+.page-header-icon img {
+  border-radius: 3px;
+}
+
+/* --------------------------------------------------------------------------
+   Blockquote
+   -------------------------------------------------------------------------- */
+blockquote {
+  border-left: 2px solid var(--accent-gold, #FFB700);
+  padding: 0.75rem 1.25rem;
+  margin: 1.5rem 0;
+  background-color: var(--bg-secondary, #FFFFFF);
+  border-radius: 0 6px 6px 0;
+  font-style: italic;
+  color: var(--text-dark, #270D0D);
+  line-height: 1.7;
+}
+
+blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+blockquote.quote-large {
+  font-size: 1.25em;
+  border-left-width: 5px;
+}
+
+/* --------------------------------------------------------------------------
+   Page Description
+   -------------------------------------------------------------------------- */
+.page-description {
+  color: var(--text-muted, #A49999);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  margin-bottom: 2em;
+}
+
+.page-title {
+  font-family: var(--font-heading, 'Roboto Slab', serif);
+  font-size: 2.5rem;
+  font-weight: 400;
+  margin-top: 0;
+  margin-bottom: 0.75em;
+  color: var(--text-dark, #270D0D);
+}
+
+/* --------------------------------------------------------------------------
+   Table of Contents (Notion)
+   -------------------------------------------------------------------------- */
+.table_of_contents-item {
+  display: block;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  padding: 0.2rem 0;
+}
+
+.table_of_contents-indent-1 {
+  margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+  margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+  margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+  text-decoration: none;
+  color: var(--text-muted, #A49999);
+  border-bottom: 1px solid var(--divider, #E5DFD6);
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.table_of_contents-link:hover {
+  color: var(--accent-primary, #BC2122);
+  border-bottom-color: var(--accent-primary, #BC2122);
+}
+
+/* --------------------------------------------------------------------------
+   Select/Tag Values (Notion database properties)
+   -------------------------------------------------------------------------- */
+.selected-value {
+  display: inline-block;
+  padding: 0.1em 0.5em;
+  background: rgba(39, 13, 13, 0.06);
+  border-radius: 3px;
+  margin-right: 0.4em;
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+  white-space: nowrap;
+  font-size: 0.8125rem;
+}
+
+.select-value-color-default { background-color: rgba(39, 13, 13, 0.06); }
+.select-value-color-gray { background-color: rgba(58, 54, 50, 0.08); }
+.select-value-color-brown { background-color: rgba(148, 110, 82, 0.15); }
+.select-value-color-orange { background-color: rgba(184, 133, 108, 0.15); }
+.select-value-color-yellow { background-color: rgba(196, 162, 101, 0.2); }
+.select-value-color-green { background-color: rgba(122, 140, 110, 0.15); }
+.select-value-color-blue { background-color: rgba(51, 116, 185, 0.15); }
+.select-value-color-purple { background-color: rgba(140, 95, 165, 0.15); }
+.select-value-color-pink { background-color: rgba(180, 68, 128, 0.15); }
+.select-value-color-red { background-color: rgba(122, 140, 110, 0.15); }
+
+/* --------------------------------------------------------------------------
+   Checkbox / To-do
+   -------------------------------------------------------------------------- */
+.checkbox {
+  display: inline-flex;
+  vertical-align: text-bottom;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--text-muted, #A49999);
+  border-radius: 3px;
+  flex-shrink: 0;
+  margin-right: 0.5em;
+  transition: border-color 0.3s ease;
+}
+
+.checkbox-on {
+  background-color: var(--accent-primary, #BC2122);
+  border-color: var(--accent-primary, #BC2122);
+}
+
+input[type="checkbox"] {
+  transform: scale(1.3);
+  margin-right: 0.5em;
+  vertical-align: middle;
+  accent-color: var(--accent-primary, #BC2122);
+}
+
+/* --------------------------------------------------------------------------
+   Indented Content
+   -------------------------------------------------------------------------- */
+.indented {
+  padding-left: 1.5em;
+}
+
+/* --------------------------------------------------------------------------
+   Link to Page
+   -------------------------------------------------------------------------- */
+.link-to-page {
+  margin: 0.75em 0;
+  padding: 0;
+  border: none;
+  font-weight: 500;
+}
+
+.link-to-page a {
+  color: var(--accent-primary, #BC2122);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.link-to-page a:hover {
+  text-decoration: underline;
+}
+
+/* --------------------------------------------------------------------------
+   Icon
+   -------------------------------------------------------------------------- */
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 1.2em;
+  max-height: 1.2em;
+  text-decoration: none;
+  vertical-align: text-bottom;
+  margin-right: 0.4em;
+}
+
+img.icon {
+  border-radius: 3px;
+}
+
+.text-icon {
+  border: 1px solid var(--text-dark, #270D0D);
+  text-align: center;
+  border-radius: 3px;
+}
+
+.user-icon {
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 50%;
+  margin-right: 0.4rem;
+}
+
+/* --------------------------------------------------------------------------
+   Source Block
+   -------------------------------------------------------------------------- */
+.source {
+  border: 1px solid var(--divider, #E5DFD6);
+  border-radius: 6px;
+  padding: 1.25rem 1.5rem;
+  word-break: break-all;
+  background-color: var(--bg-white, #FFFFFF);
+}
+
+/* --------------------------------------------------------------------------
+   Download Card (replaces ugly S3/Notion links)
+   -------------------------------------------------------------------------- */
+.download-card-wrapper {
+  border: 1px solid var(--divider, #E5DFD6);
+  border-radius: 6px;
+  padding: 0;
+  background-color: var(--bg-white, #FFFFFF);
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  word-break: normal;
+}
+
+.download-card-wrapper:hover {
+  box-shadow: var(--card-shadow, 0px 12px 45px rgba(0, 0, 0, 0.05));
+  border-color: rgba(39, 13, 13, 0.15);
+}
+
+.download-figure {
+  margin: 1.5rem 0;
+}
+
+a.download-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+a.download-card:hover {
+  background-color: var(--bg-secondary, #FFFFFF);
+  text-decoration: none;
+}
+
+.download-card__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  background-color: rgba(188, 33, 34, 0.1);
+  color: var(--accent-primary, #BC2122);
+}
+
+.download-card__icon::before {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.download-card__icon--pdf::before {
+  content: '\1F4C4';
+}
+
+.download-card__icon--audio::before {
+  content: '\1F3B5';
+}
+
+.download-card__icon--video::before {
+  content: '\1F3AC';
+}
+
+.download-card__icon--file::before {
+  content: '\1F4CE';
+}
+
+.download-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.download-card__name {
+  font-family: var(--font-heading, 'Roboto Slab', serif);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: var(--text-dark, #270D0D);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.download-card__type {
+  font-size: 0.8125rem;
+  color: var(--text-muted, #A49999);
+  font-family: var(--font-nav, 'Kumbh Sans', sans-serif);
+}
+
+@media (max-width: 480px) {
+  a.download-card {
+    padding: 0.875rem 1rem;
+    gap: 0.75rem;
+  }
+
+  .download-card__icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .download-card__name {
+    font-size: 0.875rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Mark / Highlight Override
+   -------------------------------------------------------------------------- */
+mark {
+  background-color: rgba(196, 162, 101, 0.25);
+  padding: 0.05em 0.15em;
+  border-radius: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   PDF / Print Overrides
+   -------------------------------------------------------------------------- */
+.pdf-relative-link-path {
+  font-size: 80%;
+  color: var(--text-muted, #A49999);
+}
+
+/* --------------------------------------------------------------------------
+   Notion Time / User elements
+   -------------------------------------------------------------------------- */
+time {
+  opacity: 0.6;
+  font-size: 0.875em;
+}
+
+p > .user {
+  opacity: 0.6;
+}
+
+td > .user,
+td > time {
+  white-space: nowrap;
+}

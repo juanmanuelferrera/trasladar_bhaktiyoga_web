@@ -1,0 +1,717 @@
+/* ==========================================================================
+   Responsive Breakpoints - bhaktiyoga.es
+   Design system: Roboto Slab (headings), Roboto (body), Kumbh Sans (nav)
+   Palette: cream #FAF7ED, white #FFFFFF, maroon #270D0D, burgundy #BC2122, orange #F87F18, gold #FFB700
+   Container: 1290px max  |  Header: sticky, 77px desktop
+   Style: warm, spiritual, Krishna temple-inspired
+   ========================================================================== */
+
+
+/* --------------------------------------------------------------------------
+   Breakpoint: max-width 1024px  (Tablets landscape / small desktops)
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+
+  /* -- Custom properties -- */
+  :root {
+    --container-padding: 1.5rem;
+    --section-spacing: 4rem;
+  }
+
+  /* -- Header -- */
+  .site-header .container {
+    height: 72px;
+  }
+
+  /* -- Navigation: tighter spacing -- */
+  .main-nav > ul {
+    gap: 0;
+  }
+
+  .main-nav a {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+  }
+
+  /* -- Hero -- */
+  .hero h1,
+  .hero__title {
+    font-size: 2.5rem;
+  }
+
+  .hero p,
+  .hero__subtitle {
+    font-size: 1.125rem;
+  }
+
+  /* -- Typography scale -- */
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.75rem;
+  }
+
+  h3 {
+    font-size: 1.375rem;
+  }
+
+  h4 {
+    font-size: 1.25rem;
+  }
+
+  /* -- Section titles -- */
+  .section-title h2 {
+    font-size: 2rem;
+  }
+
+  /* -- Page content -- */
+  .page-content {
+    padding: 2.5rem var(--container-padding);
+  }
+
+  .page-content h1 {
+    font-size: 2.125rem;
+  }
+
+  .page-content h2 {
+    font-size: 1.625rem;
+  }
+
+  /* -- Footer grid: keep 3 columns, tighter gap -- */
+  .footer-grid {
+    gap: 2rem;
+  }
+
+  /* -- Feature grid: 2 columns -- */
+  .feature-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  /* -- Home sections -- */
+  .home-section {
+    padding: var(--section-spacing) 0;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   Breakpoint: max-width 768px  (Tablets portrait)
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+
+  /* -- Custom properties -- */
+  :root {
+    --container-padding: 1.25rem;
+    --section-spacing: 3rem;
+  }
+
+  /* ================================================================
+     Header
+     ================================================================ */
+  .site-header .container {
+    height: 60px;
+  }
+
+  /* ================================================================
+     Mobile toggle: reveal hamburger
+     ================================================================ */
+  .mobile-toggle {
+    display: block;
+  }
+
+  /* ================================================================
+     Navigation: fixed slide-in overlay
+     ================================================================ */
+  .main-nav {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #FFFFFF;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 1.5rem var(--container-padding) 2rem;
+    overflow-y: auto;
+    transform: translateX(100%);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      transform 0.35s ease,
+      opacity  0.35s ease,
+      visibility 0.35s ease;
+    z-index: 999;
+    border-top: 1px solid var(--divider);
+  }
+
+  .main-nav.open {
+    transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .main-nav > ul {
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+  }
+
+  /* Nav links: full-width with border separators */
+  .main-nav a {
+    padding: 0.875rem 0;
+    font-size: 0.9375rem;
+    border-bottom: 1px solid var(--divider);
+  }
+
+  .main-nav > ul > li:last-child > a {
+    border-bottom: none;
+  }
+
+  /* ================================================================
+     Dropdowns: static, no shadow, nested with left padding
+     ================================================================ */
+  .main-nav .dropdown {
+    position: static;
+    opacity: 1;
+    visibility: hidden;
+    transform: none;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0 0 0 1rem;
+    background-color: transparent;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, visibility 0.3s ease;
+  }
+
+  /* Mobile dropdown toggle: tap to expand */
+  .main-nav .has-dropdown.dropdown-open > .dropdown {
+    visibility: visible;
+    max-height: 500px;
+  }
+
+  .main-nav .has-dropdown.dropdown-open .dropdown-arrow {
+    transform: rotate(180deg);
+  }
+
+  .main-nav .dropdown a {
+    padding: 0.625rem 0;
+    font-size: 0.875rem;
+    border-bottom: 1px solid rgba(226, 220, 211, 0.5);
+  }
+
+  .main-nav .dropdown li:last-child a {
+    border-bottom: none;
+  }
+
+  .main-nav .dropdown a:hover {
+    background-color: transparent;
+    color: var(--accent-primary);
+  }
+
+  /* ================================================================
+     Hero
+     ================================================================ */
+  .hero {
+    min-height: 45vh;
+  }
+
+  .hero h1,
+  .hero__title {
+    font-size: 2rem;
+  }
+
+  .hero p,
+  .hero__subtitle {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero .container,
+  .hero__content {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+
+  /* ================================================================
+     Typography
+     ================================================================ */
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.75rem;
+  }
+
+  h3 {
+    font-size: 1.375rem;
+  }
+
+  h4 {
+    font-size: 1.25rem;
+  }
+
+  /* ================================================================
+     Section titles
+     ================================================================ */
+  .section-title {
+    margin-bottom: 2rem;
+  }
+
+  .section-title h2 {
+    font-size: 1.75rem;
+  }
+
+  .section-title p {
+    font-size: 1rem;
+  }
+
+  /* ================================================================
+     Card grid: single column
+     ================================================================ */
+  .card-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  /* ================================================================
+     Feature grid: single column
+     ================================================================ */
+  .feature-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  /* ================================================================
+     Highlight block: stack vertically
+     ================================================================ */
+  .highlight-block {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .highlight-block__text {
+    text-align: center;
+  }
+
+  .highlight-block__image {
+    order: -1;
+  }
+
+  .highlight-block__image img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--card-radius, 6px);
+  }
+
+  /* ================================================================
+     CTA banner
+     ================================================================ */
+  .cta-banner h2 {
+    font-size: 1.75rem;
+  }
+
+  .cta-banner p {
+    font-size: 1rem;
+  }
+
+  /* ================================================================
+     Page banner
+     ================================================================ */
+  .page-banner {
+    min-height: 200px;
+  }
+
+  .page-banner .container {
+    padding-top: 3rem;
+    padding-bottom: 2rem;
+  }
+
+  .page-banner__title {
+    font-size: 1.75rem;
+  }
+
+  /* ================================================================
+     Page content
+     ================================================================ */
+  .page-content {
+    padding: 2rem var(--container-padding);
+  }
+
+  .page-content h1 {
+    font-size: 1.875rem;
+    margin-top: 1.5rem;
+  }
+
+  .page-content h2 {
+    font-size: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .page-content h3 {
+    font-size: 1.25rem;
+    margin-top: 1.5rem;
+  }
+
+  /* ================================================================
+     Footer: single column, centered
+     ================================================================ */
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .site-footer {
+    padding: 3rem 0 1.5rem;
+  }
+
+  .footer-col {
+    text-align: center;
+  }
+
+  .footer-bottom {
+    padding-top: 1.5rem;
+    font-size: 0.8125rem;
+  }
+
+  /* ================================================================
+     Breadcrumb
+     ================================================================ */
+  .breadcrumb-bar li {
+    font-size: 0.75rem;
+  }
+
+  /* ================================================================
+     Buttons: slightly smaller padding
+     ================================================================ */
+  .btn-primary,
+  .btn-outline,
+  .btn--primary,
+  .btn--outline {
+    padding: 0.7em 1.75em;
+    font-size: 0.8125rem;
+  }
+
+  /* ================================================================
+     Notion column layout: stack
+     ================================================================ */
+  .column-list {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  /* ================================================================
+     Notion tables: horizontal scroll
+     ================================================================ */
+  table.collection-content,
+  .simple-table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* ================================================================
+     Home sections
+     ================================================================ */
+  .home-section {
+    padding: var(--section-spacing) 0;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   Breakpoint: max-width 480px  (Small phones)
+   -------------------------------------------------------------------------- */
+@media (max-width: 480px) {
+
+  /* -- Custom properties -- */
+  :root {
+    --container-padding: 1rem;
+    --section-spacing: 2rem;
+  }
+
+  /* ================================================================
+     Typography: compact scale
+     ================================================================ */
+  body {
+    font-size: 0.9375rem;
+  }
+
+  h1 {
+    font-size: 1.625rem;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+  }
+
+  h3 {
+    font-size: 1.125rem;
+  }
+
+  h4 {
+    font-size: 1rem;
+  }
+
+  /* ================================================================
+     Hero
+     ================================================================ */
+  .hero {
+    min-height: 40vh;
+  }
+
+  .hero h1,
+  .hero__title {
+    font-size: 1.625rem;
+    line-height: 1.2;
+  }
+
+  .hero p,
+  .hero__subtitle {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+
+  .hero .container,
+  .hero__content {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .hero__cta {
+    font-size: 0.8125rem;
+  }
+
+  /* ================================================================
+     Section titles
+     ================================================================ */
+  .section-title {
+    margin-bottom: 1.5rem;
+  }
+
+  .section-title h2 {
+    font-size: 1.375rem;
+  }
+
+  .section-title p {
+    font-size: 0.9375rem;
+  }
+
+  /* ================================================================
+     Cards: less padding
+     ================================================================ */
+  .card-grid {
+    gap: 1.25rem;
+  }
+
+  .card-body {
+    padding: 1.25rem;
+  }
+
+  .card-title {
+    font-size: 1.125rem;
+  }
+
+  .card-text {
+    font-size: 0.875rem;
+  }
+
+  /* ================================================================
+     Feature cards: tighter spacing
+     ================================================================ */
+  .feature-card__body {
+    padding: 1rem;
+  }
+
+  .feature-card__title {
+    font-size: 1.125rem;
+  }
+
+  .feature-card__text {
+    font-size: 0.875rem;
+  }
+
+  /* ================================================================
+     Highlight block
+     ================================================================ */
+  .highlight-block {
+    gap: 1.5rem;
+  }
+
+  .highlight-block__text h2 {
+    font-size: 1.375rem;
+  }
+
+  .highlight-block__text p {
+    font-size: 0.9375rem;
+  }
+
+  /* ================================================================
+     CTA banner
+     ================================================================ */
+  .cta-banner {
+    padding: 2rem 1.25rem;
+  }
+
+  .cta-banner h2 {
+    font-size: 1.375rem;
+  }
+
+  .cta-banner p {
+    font-size: 0.9375rem;
+  }
+
+  /* ================================================================
+     Page banner
+     ================================================================ */
+  .page-banner {
+    min-height: 160px;
+  }
+
+  .page-banner .container {
+    padding-top: 2.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .page-banner__title {
+    font-size: 1.5rem;
+  }
+
+  /* ================================================================
+     Page content
+     ================================================================ */
+  .page-content {
+    padding: 1.5rem var(--container-padding);
+  }
+
+  .page-content h1 {
+    font-size: 1.625rem;
+    margin-top: 1rem;
+  }
+
+  .page-content h2 {
+    font-size: 1.375rem;
+    margin-top: 1.5rem;
+  }
+
+  .page-content h3 {
+    font-size: 1.125rem;
+    margin-top: 1.25rem;
+  }
+
+  .page-content blockquote {
+    padding: 0.75rem 1rem;
+    margin: 1rem 0;
+  }
+
+  .page-title {
+    font-size: 1.625rem;
+  }
+
+  .page-description {
+    font-size: 0.9375rem;
+  }
+
+  /* ================================================================
+     Footer: tighter spacing
+     ================================================================ */
+  .site-footer {
+    padding: 2.5rem 0 1.25rem;
+  }
+
+  .footer-col h4 {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .footer-col a,
+  .footer-col p {
+    font-size: 0.875rem;
+  }
+
+  .footer-bottom {
+    font-size: 0.75rem;
+    padding-top: 1.25rem;
+  }
+
+  /* ================================================================
+     Buttons: full width
+     ================================================================ */
+  .btn-primary,
+  .btn-outline,
+  .btn--primary,
+  .btn--outline {
+    width: 100%;
+    text-align: center;
+    padding: 0.75em 1.5em;
+  }
+
+  .hero__cta {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* ================================================================
+     Breadcrumb: smaller font
+     ================================================================ */
+  .breadcrumb-bar {
+    padding: 0.75rem 0;
+  }
+
+  .breadcrumb-bar li {
+    font-size: 0.6875rem;
+  }
+
+  .breadcrumb-bar li + li::before {
+    margin: 0 0.35rem;
+  }
+
+  /* ================================================================
+     Divider
+     ================================================================ */
+  hr,
+  .divider {
+    margin: 1.5rem 0;
+  }
+
+  /* ================================================================
+     Notion bookmark: stack
+     ================================================================ */
+  .bookmark {
+    flex-direction: column;
+    max-height: none;
+  }
+
+  .bookmark-image {
+    width: 100%;
+    height: 160px;
+  }
+
+  /* ================================================================
+     Notion download card
+     ================================================================ */
+  a.download-card {
+    padding: 0.875rem 1rem;
+    gap: 0.75rem;
+  }
+
+  .download-card__icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .download-card__name {
+    font-size: 0.875rem;
+  }
+
+  /* ================================================================
+     Home sections
+     ================================================================ */
+  .home-section {
+    padding: var(--section-spacing) 0;
+  }
+}

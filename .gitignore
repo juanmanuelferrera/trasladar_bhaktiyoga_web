@@ -1,0 +1,15 @@
+# Build output
+output/
+
+# Notion export (large, not needed in repo)
+notion_full/
+
+# Python
+__pycache__/
+*.pyc
+
+# OS
+.DS_Store
+
+# Google Fonts reference CSS (not needed, we have fonts.css)
+static/fonts/google-fonts.css

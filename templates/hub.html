@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{# ===== Page Banner (uniform across all pages) ===== #}
+{% block hero %}
+<section class="page-banner">
+  <div class="container">
+    <h1 class="page-banner__title">{{ title }}</h1>
+  </div>
+</section>
+{% endblock %}
+
+{# ===== Hub Page: Intro + Card Grid ===== #}
+{% block main %}
+<div class="container">
+
+  {% if content %}
+  <div class="hub-intro notion-content">
+    {{ content | safe }}
+  </div>
+  {% endif %}
+
+  {% if cards %}
+  <div class="card-grid" role="list">
+    {% for card in cards %}
+    <a href="{{ card.url }}" class="card" role="listitem">
+      {% if card.image %}
+      <div
+        class="card-image"
+        style="background-image: url('{{ card.image }}');"
+        role="img"
+        aria-label="{{ card.title }}"
+      ></div>
+      {% else %}
+      <div class="card-image card-image--placeholder" role="img" aria-label="{{ card.title }}">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="currentColor" opacity="0.3"/>
+        </svg>
+      </div>
+      {% endif %}
+      <div class="card-body">
+        <h3 class="card-title">{{ card.title }}</h3>
+        {% if card.description %}
+        <p class="card-description">{{ card.description }}</p>
+        {% endif %}
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}

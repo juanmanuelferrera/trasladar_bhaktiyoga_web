@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title }} | {{ site_name }}</title>
+  <meta name="description" content="{{ site_tagline }}">
+
+  <!-- Self-hosted fonts -->
+  <link rel="stylesheet" href="/css/fonts.css">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/css/shakti.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  <link rel="stylesheet" href="/css/notion-compat.css">
+</head>
+<body class="page-type--{{ page_type | default('article') }}">
+
+  <!-- ===== Site Header ===== -->
+  <header class="site-header" role="banner">
+    <div class="container">
+      <a href="/" class="logo" aria-label="Ir a la pagina de inicio - {{ site_name }}">
+        {{ site_name }}
+      </a>
+
+      <button
+        class="mobile-toggle"
+        id="mobileToggle"
+        aria-label="Abrir menu de navegacion"
+        aria-expanded="false"
+        aria-controls="mainNav"
+      >
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+
+      <nav class="main-nav" id="mainNav" role="navigation" aria-label="Navegacion principal">
+        <ul>
+          {% for item in nav_items %}
+          <li class="{% if item.children %}has-dropdown{% endif %}{% if current_section and item.url != '#' and item.url.strip('/') == current_section %} active{% elif current_section and item.url != '/' and item.url != '#' and ('/' + current_section).startswith(item.url.rstrip('/')) %} active{% endif %}">
+            <a href="{{ item.url }}"{% if item.children %} aria-haspopup="true" aria-expanded="false"{% endif %}>
+              {{ item.label }}
+              {%- if item.children %}
+              <svg class="dropdown-arrow" width="10" height="6" viewBox="0 0 10 6" aria-hidden="true">
+                <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              </svg>
+              {%- endif %}
+            </a>
+            {% if item.children %}
+            <ul class="dropdown" role="menu">
+              {% for child in item.children %}
+              <li role="none"><a href="{{ child.url }}" role="menuitem">{{ child.label }}</a></li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+          </li>
+          {% endfor %}
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== Breadcrumb ===== -->
+  {% if breadcrumb %}
+  <div class="breadcrumb-bar" role="navigation" aria-label="Ruta de navegacion">
+    <div class="container">
+      <ol class="breadcrumb-list">
+        {% for label, url in breadcrumb %}
+          {% if not loop.last %}
+          <li class="breadcrumb-item">
+            <a href="{{ url }}">{{ label }}</a>
+            <span class="sep" aria-hidden="true">/</span>
+          </li>
+          {% else %}
+          <li class="breadcrumb-item current" aria-current="page">
+            <span>{{ label }}</span>
+          </li>
+          {% endif %}
+        {% endfor %}
+      </ol>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- ===== Hero (overridable) ===== -->
+  {% block hero %}{% endblock %}
+
+  <!-- ===== Main Content ===== -->
+  <main class="site-main" id="main-content" role="main">
+    {% block main %}{% endblock %}
+  </main>
+
+  <!-- ===== Site Footer ===== -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+
+        <div class="footer-col">
+          <h4>{{ site_name }}</h4>
+          <p class="footer-cif">{{ site_cif }}</p>
+          <p>Proporcionamos una experiencia genuina del Bhakti yoga.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Enseñanzas</h4>
+          <ul>
+            <li><a href="/contenido/">Contenido</a></li>
+            <li><a href="/blog/">Blog</a></li>
+            <li><a href="/libreria/">Librería</a></li>
+            <li><a href="/curso-de-bhakti-yoga/">Curso de Bhakti Yoga</a></li>
+            <li><a href="/prabhupada/">Prabhupada</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Comunidad</h4>
+          <ul>
+            <li><a href="/eventos/">Eventos</a></li>
+            <li><a href="/conferencias/">Conferencias</a></li>
+            <li><a href="/talleres/">Talleres</a></li>
+            <li><a href="/glosario/">Glosario</a></li>
+            <li><a href="/estatutos/">Estatutos</a></li>
+          </ul>
+          <h4>Contacto</h4>
+          <ul>
+            <li><a href="mailto:{{ contact_email }}">{{ contact_email }}</a></li>
+            <li><a href="{{ contact_telegram }}" target="_blank" rel="noopener noreferrer">Telegram</a></li>
+            <li><a href="/asistencia/">Asistencia</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2025 Centros Bhakti-yoga</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/nav.js"></script>
+</body>
+</html>

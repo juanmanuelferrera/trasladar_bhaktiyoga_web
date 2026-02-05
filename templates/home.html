@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{# ===== Hero Banner ===== #}
+{% block hero %}
+<section class="hero" aria-label="Presentacion principal">
+  <div class="hero__background" style="background-image: url('/assets/hero-bg.webp');" role="img" aria-label="Templo de Bhakti yoga"></div>
+  <div class="hero__overlay"></div>
+  <div class="hero__content">
+    <h1 class="hero__title">Centros de Bhakti yoga</h1>
+    <p class="hero__subtitle">{{ site_tagline }}</p>
+    <a href="/estatutos/" class="hero__cta">Conoce mas</a>
+  </div>
+</section>
+{% endblock %}
+
+{# ===== Homepage Sections ===== #}
+{% block main %}
+
+<!-- ===== Section 1: Feature Cards ===== -->
+<section class="home-section home-section--features" aria-labelledby="features-heading">
+  <div class="container">
+    <h2 id="features-heading" class="sr-only">Nuestras secciones principales</h2>
+    <div class="feature-grid">
+
+      <a href="/estatutos/" class="feature-card">
+        <div
+          class="feature-card__image"
+          style="background-image: url('/assets/temple.jpg');"
+          role="img"
+          aria-label="Templo de Bhakti yoga"
+        ></div>
+        <div class="feature-card__body">
+          <h3 class="feature-card__title">Quienes somos</h3>
+          <p class="feature-card__text">
+            Somos una entidad no lucrativa dedicada a la difusion de la cultura vedica
+            y la practica del Bhakti yoga.
+          </p>
+        </div>
+      </a>
+
+      <a href="/contenido/" class="feature-card">
+        <div
+          class="feature-card__image"
+          style="background-image: url('/assets/lord-caitanya-dances-ecstaticly-at-gundica-temple-1024x810.jpg');"
+          role="img"
+          aria-label="Contenido de Bhakti yoga"
+        ></div>
+        <div class="feature-card__body">
+          <h3 class="feature-card__title">Contenido</h3>
+          <p class="feature-card__text">
+            Musica, videos, pinturas, cursos y libros. Todo el material que necesitas
+            para profundizar en el Bhakti yoga.
+          </p>
+        </div>
+      </a>
+
+      <a href="/libreria/" class="feature-card">
+        <div
+          class="feature-card__image"
+          style="background-image: url('/assets/mbr-5.jpg');"
+          role="img"
+          aria-label="Libreria de Bhakti yoga"
+        ></div>
+        <div class="feature-card__body">
+          <h3 class="feature-card__title">Libreria</h3>
+          <p class="feature-card__text">
+            Descubre los libros clasicos del Bhakti yoga: Bhagavad-gita,
+            Srimad-Bhagavatam y muchos mas.
+          </p>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== Section 2: CTA Banner ===== -->
+<section class="home-section home-section--cta" aria-labelledby="cta-heading">
+  <div class="container">
+    <div class="cta-banner">
+      <h2 id="cta-heading">Te gusta lo que hacemos?</h2>
+      <p>Unete a nuestro canal de Telegram para estar al dia con las novedades, eventos y contenido nuevo.</p>
+      <a href="{{ contact_telegram }}" class="btn btn--primary" target="_blank" rel="noopener noreferrer">
+        Unirse a Telegram
+      </a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

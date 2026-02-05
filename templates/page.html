@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{# ===== Page Banner (uniform across all pages) ===== #}
+{% block hero %}
+<section class="page-banner">
+  <div class="container">
+    <h1 class="page-banner__title">{{ title }}</h1>
+  </div>
+</section>
+{% endblock %}
+
+{# ===== Page Content ===== #}
+{% block main %}
+<div class="container">
+  <article class="page-content">
+    <div class="page-body notion-content">
+      {{ content | safe }}
+    </div>
+  </article>
+</div>
+{% endblock %}
