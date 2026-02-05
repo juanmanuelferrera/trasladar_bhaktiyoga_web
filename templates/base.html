@@ -85,7 +85,7 @@
         {% for label, url in breadcrumb %}
           {% if not loop.last %}
           <li class="breadcrumb-item">
-            <a href="{{ url }}">{{ label }}</a>
+            {% if url %}<a href="{{ url }}">{{ label }}</a>{% else %}<span>{{ label }}</span>{% endif %}
             <span class="sep" aria-hidden="true">/</span>
           </li>
           {% else %}

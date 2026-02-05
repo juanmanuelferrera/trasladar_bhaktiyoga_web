@@ -211,8 +211,8 @@ def main():
             # Determine current section for nav highlighting
             current_section = slug.strip('/').split('/')[0] if slug != '/' else ''
 
-            # Build breadcrumb
-            breadcrumb = _build_breadcrumb(slug, title)
+            # Build breadcrumb (only link to pages that actually exist)
+            breadcrumb = _build_breadcrumb(slug, title, slug_map)
 
             # Choose template
             if page_data['is_hub']:
@@ -349,10 +349,21 @@ Sitemap: {SITE_URL}/sitemap.xml
     print("  Generated robots.txt")
 
 
-def _build_breadcrumb(slug, title):
-    """Build breadcrumb trail from a URL slug."""
+def _build_breadcrumb(slug, title, slug_map=None):
+    """Build breadcrumb trail from a URL slug.
+
+    Only creates clickable links for intermediate breadcrumb segments
+    that correspond to real pages in slug_map.  Non-existent intermediate
+    segments are emitted with url=None so the template can render them
+    as plain text.
+    """
     if slug == '/' or slug == '/mapa/':
         return []
+
+    # Build set of existing page URLs for fast lookup
+    existing_urls = set()
+    if slug_map:
+        existing_urls = set(slug_map.values())
 
     parts = slug.strip('/').split('/')
     breadcrumb = [('Inicio', '/')]
@@ -380,15 +391,18 @@ def _build_breadcrumb(slug, title):
     current_path = ''
     for i, part in enumerate(parts):
         current_path += f'/{part}'
+        candidate_url = current_path + '/'
         if i == len(parts) - 1:
-            # Last part = current page title
-            breadcrumb.append((title, current_path + '/'))
+            # Last part = current page title (always present, no link needed)
+            breadcrumb.append((title, candidate_url))
         elif part in section_labels:
-            breadcrumb.append((section_labels[part], current_path + '/'))
+            # Only link if the page actually exists
+            url = candidate_url if candidate_url in existing_urls else None
+            breadcrumb.append((section_labels[part], url))
         else:
-            # Use the slug as label (capitalize)
             label = part.replace('-', ' ').title()
-            breadcrumb.append((label, current_path + '/'))
+            url = candidate_url if candidate_url in existing_urls else None
+            breadcrumb.append((label, url))
 
     return breadcrumb
 

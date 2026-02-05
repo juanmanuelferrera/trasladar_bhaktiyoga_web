@@ -104,6 +104,12 @@ def parse_notion_html(html_content):
     # Strip empty wrapper divs
     _strip_empty_divs(page_body)
 
+    # Fix about:blank footnote links (Notion exports them with about:blank prefix)
+    _fix_about_blank_links(page_body)
+
+    # Strip data: URI links (base64 images used as href instead of src)
+    _strip_data_uri_links(page_body)
+
     # Detect hub pages and extract cards
     is_hub = False
     cards = []
@@ -644,3 +650,25 @@ def _beautify_raw_urls(soup):
         )
         new_tag = BeautifulSoup(card_html, 'html.parser')
         figure.replace_with(new_tag)
+
+
+def _fix_about_blank_links(soup):
+    """Strip 'about:blank' prefix from footnote links.
+
+    Notion sometimes exports footnotes as about:blank#fn-1 instead of #fn-1.
+    """
+    for a in soup.find_all('a', href=True):
+        href = a['href']
+        if href.startswith('about:blank#'):
+            a['href'] = href.replace('about:blank', '')
+
+
+def _strip_data_uri_links(soup):
+    """Remove <a> tags whose href is a data: URI (e.g. base64-encoded images).
+
+    These are malformed Notion exports where a base64 image was placed in an
+    href instead of an img src.  We unwrap the link but keep its contents.
+    """
+    for a in list(soup.find_all('a', href=True)):
+        if a['href'].startswith('data:'):
+            a.unwrap()

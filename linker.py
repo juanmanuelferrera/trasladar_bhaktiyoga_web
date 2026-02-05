@@ -1,10 +1,13 @@
 """Rewrite internal links from Notion format to clean URLs."""
 import os
 import re
+import shutil
 import urllib.parse
 from bs4 import BeautifulSoup
+from slugify import slugify as _slugify
 
 from slugify_pages import NOTION_FILENAME_RE
+from config import SLUG_OVERRIDES, NOTION_EXPORT_DIR, OUTPUT_DIR
 
 
 def rewrite_links(html_content, source_file_path, slug_map, asset_map, mapa_dir):
@@ -91,6 +94,9 @@ def _rewrite_href(href, source_dir, slug_map, asset_map, mapa_dir):
             notion_id = m.group(2)
             if notion_id in slug_map:
                 return slug_map[notion_id] + anchor
+            # Fallback: check SLUG_OVERRIDES for pages outside MAPA_DIR
+            if notion_id in SLUG_OVERRIDES:
+                return SLUG_OVERRIDES[notion_id] + anchor
 
         # Try getting ID from the href itself (before resolution)
         basename = os.path.basename(decoded)
@@ -99,6 +105,8 @@ def _rewrite_href(href, source_dir, slug_map, asset_map, mapa_dir):
             notion_id = m.group(2)
             if notion_id in slug_map:
                 return slug_map[notion_id] + anchor
+            if notion_id in SLUG_OVERRIDES:
+                return SLUG_OVERRIDES[notion_id] + anchor
 
         return None
 
@@ -140,6 +148,26 @@ def _rewrite_asset_src(src, source_dir, asset_map, mapa_dir):
     for orig_path, clean_path in asset_map.items():
         if os.path.basename(orig_path) == basename:
             return clean_path
+
+    # Handle out-of-tree assets: file exists in the broader Notion export
+    # but outside MAPA_DIR (e.g. "Copy of Conocimiento/" sibling dirs)
+    if rel_to_mapa.startswith('..') and os.path.isfile(abs_path):
+        rel_to_export = os.path.relpath(abs_path, NOTION_EXPORT_DIR)
+        if not rel_to_export.startswith('..'):
+            name_no_ext, ext = os.path.splitext(basename)
+            clean_name = _slugify(name_no_ext, lowercase=True, max_length=80)
+            if not clean_name:
+                clean_name = 'file'
+            clean_name = f"{clean_name}{ext.lower()}"
+            clean_url = f"/assets/{clean_name}"
+            # Copy the file to output/assets/
+            dest = os.path.join(OUTPUT_DIR, 'assets', clean_name)
+            os.makedirs(os.path.dirname(dest), exist_ok=True)
+            if not os.path.exists(dest):
+                shutil.copy2(abs_path, dest)
+            # Add to asset_map for future lookups
+            asset_map[rel_to_mapa] = clean_url
+            return clean_url
 
     return None
 

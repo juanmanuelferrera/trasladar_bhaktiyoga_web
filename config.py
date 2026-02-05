@@ -71,7 +71,7 @@ SLUG_OVERRIDES = {
     "4de5e2fd65e8460e90aeb8f0a256ecfc": "/contenido/",
     "8f04e519bdb746158a24ba0010b813ef": "/libreria/",
     "d8a09ede1598464693ac1750b9ba2cce": "/blog/",
-    "361c82e1b1b7464ab15e16c230a2db53": "/mapa/",
+    "361c82e1b1b7464ab15e16c230a2db53": "/",
     "2dbe846ade1b428ca98b39027e796313": "/centros/",
 }
 
@@ -89,6 +89,9 @@ MANUAL_CARD_COVERS = {
     "42bde06312f04b1ba7a3c4887b4af74f": "/assets/manual-del-bhakta-cover.png",
     "364ca98f8f7a4f23a502d7737356d6c8": "/assets/arsa-prayoga-cover.png",
     "37a84db2095e4657ab0a69980134103f": "/assets/arsa-prayoga-cover.png",
+    # Blog cards missing covers
+    "1a278d504b344dfa9244c7fae44ff2cd": "https://images.unsplash.com/photo-1565060169194-19fabf63012c?w=600&q=80",
+    "4add3f0953664561937781f3ebd0af12": "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=600&q=80",
 }
 
 # Extra HTML content to append to specific pages (by slug)

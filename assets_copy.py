@@ -8,7 +8,7 @@ from config import MAPA_DIR, EXISTING_ASSETS_DIR, OUTPUT_DIR
 
 MEDIA_EXTENSIONS = {
     '.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg',
-    '.pdf', '.mp4', '.mp3', '.ogg', '.wav',
+    '.pdf', '.mp4', '.mp3', '.m4a', '.ogg', '.wav',
 }
 
 
