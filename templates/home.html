@@ -1,90 +1,284 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+  <title>Bhaktiyoga.es</title>
+  <meta name="description" content="{{ meta_description }}">
+  <link rel="canonical" href="{{ canonical_url }}">
+  <meta property="og:title" content="Bhaktiyoga.es">
+  <meta property="og:description" content="{{ meta_description }}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ canonical_url }}">
+  {% if og_image %}<meta property="og:image" content="{{ og_image }}">{% endif %}
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:site_name" content="{{ site_name }}">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+  <link rel="preload" href="https://fonts.googleapis.com/css?family=Jost:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Jost:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap"></noscript>
+  <style>
+    /* ---- Mobirise theme faithful reproduction ---- */
+    body {
+      font-family: 'Jost', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 400;
+      color: #232323;
+      background: #ffffff;
+      overflow-x: hidden;
+    }
 
-{# ===== Hero Banner ===== #}
-{% block hero %}
-<section class="hero" aria-label="Presentacion principal">
-  <div class="hero__background" style="background-image: url('/assets/hero-bg.webp');" role="img" aria-label="Templo de Bhakti yoga"></div>
-  <div class="hero__overlay"></div>
-  <div class="hero__content">
-    <h1 class="hero__title">Centros de Bhakti yoga</h1>
-    <p class="hero__subtitle">{{ site_tagline }}</p>
-    <a href="/estatutos/" class="hero__cta">Conoce mas</a>
-  </div>
-</section>
-{% endblock %}
+    /* Typography - Mobirise display sizes */
+    .display-1 {
+      font-size: 4.6rem;
+      line-height: 1.1;
+    }
+    .display-2 {
+      font-size: 3rem;
+      line-height: 1.1;
+    }
+    .display-5 {
+      font-size: 1.6rem;
+      line-height: 1.5;
+    }
+    .display-7 {
+      font-size: 1.1rem;
+      line-height: 1.7;
+    }
+    @media (max-width: 768px) {
+      .display-1 { font-size: 2.8rem; }
+      .display-2 { font-size: 2.2rem; }
+      .display-5 { font-size: 1.3rem; }
+    }
 
-{# ===== Homepage Sections ===== #}
-{% block main %}
+    /* ---- Features section (cards) ---- */
+    .features4 {
+      padding: 6rem 0 2rem;
+      background-color: #ffffff;
+    }
+    .features4 .mbr-section-head {
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+    .features4 .item {
+      margin-bottom: 2rem;
+    }
+    .features4 .item-wrapper {
+      background: #ffffff;
+      box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
+      border-radius: 0;
+      overflow: hidden;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .features4 .item-img {
+      overflow: hidden;
+    }
+    .features4 .item-img img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+    }
+    .features4 .item-content {
+      flex-grow: 1;
+    }
+    .features4 .item-title {
+      font-weight: 700;
+    }
+    .features4 .item-subtitle {
+      font-weight: 300;
+      color: #767676;
+    }
+    .features4 .item-footer {
+      padding-bottom: 0;
+    }
 
-<!-- ===== Section 1: Feature Cards ===== -->
-<section class="home-section home-section--features" aria-labelledby="features-heading">
-  <div class="container">
-    <h2 id="features-heading" class="sr-only">Nuestras secciones principales</h2>
-    <div class="feature-grid">
+    /* Buttons matching Mobirise bootstrap theme */
+    .btn.item-btn {
+      font-family: 'Jost', sans-serif;
+      font-weight: 400;
+      border-radius: 4px;
+      padding: 0.6rem 1.8rem;
+      text-decoration: none;
+      border: none;
+      color: #ffffff;
+      transition: all 0.3s;
+    }
+    .btn.item-btn:hover {
+      color: #ffffff;
+      opacity: 0.9;
+    }
+    .btn-info {
+      background-color: #2299aa !important;
+      border-color: #2299aa !important;
+    }
+    .btn-info:hover {
+      background-color: #1d8899 !important;
+    }
+    .btn-warning {
+      background-color: #f0ad4e !important;
+      border-color: #f0ad4e !important;
+      color: #ffffff !important;
+    }
+    .btn-warning:hover {
+      background-color: #e09d3e !important;
+      color: #ffffff !important;
+    }
+    .btn-success {
+      background-color: #5cb85c !important;
+      border-color: #5cb85c !important;
+    }
+    .btn-success:hover {
+      background-color: #4cae4c !important;
+    }
 
-      <a href="/estatutos/" class="feature-card">
-        <div
-          class="feature-card__image"
-          style="background-image: url('/assets/temple.jpg');"
-          role="img"
-          aria-label="Templo de Bhakti yoga"
-        ></div>
-        <div class="feature-card__body">
-          <h3 class="feature-card__title">Quienes somos</h3>
-          <p class="feature-card__text">
-            Somos una entidad no lucrativa dedicada a la difusion de la cultura vedica
-            y la practica del Bhakti yoga.
-          </p>
+    /* ---- Contacts section ---- */
+    .contacts1 {
+      padding: 4rem 0 3rem;
+      background-color: #ffffff;
+      position: relative;
+    }
+    .contacts1 .card-wrapper {
+      padding: 2rem 0;
+    }
+    .contacts1 .card-box {
+      text-align: center;
+    }
+    .contacts1 .image-wrapper {
+      margin-bottom: 1rem;
+    }
+    .contacts1 .image-wrapper .contact-icon {
+      font-size: 3.4rem;
+      display: inline-block;
+    }
+    .contacts1 .link {
+      margin-bottom: 0;
+    }
+    .contacts1 .link a {
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .contacts1 .link a:hover {
+      text-decoration: underline;
+    }
+    .text-success-custom { color: #2299aa !important; }
+    .text-info-custom { color: #22a5e5 !important; }
+
+    /* ---- Footer bar ---- */
+    .site-footer-bar {
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      align-content: center;
+      position: relative;
+      height: 4rem;
+      background: #ffffff;
+    }
+    .site-footer-bar p {
+      margin: 0;
+      text-align: center;
+      font-size: 1rem;
+    }
+    .site-footer-bar a {
+      z-index: 1;
+      color: inherit;
+      text-decoration: none;
+    }
+    .site-footer-bar a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <section class="features4" id="features4-l">
+    <div class="container">
+        <div class="mbr-section-head">
+            <h4 class="display-1 text-center mb-0">
+                <strong>Bhaktiyog</strong><strong>a.es</strong></h4>
+            <h5 class="display-5 text-center mb-0 mt-2">Elige una opcion:</h5>
         </div>
-      </a>
-
-      <a href="/contenido/" class="feature-card">
-        <div
-          class="feature-card__image"
-          style="background-image: url('/assets/lord-caitanya-dances-ecstaticly-at-gundica-temple-1024x810.jpg');"
-          role="img"
-          aria-label="Contenido de Bhakti yoga"
-        ></div>
-        <div class="feature-card__body">
-          <h3 class="feature-card__title">Contenido</h3>
-          <p class="feature-card__text">
-            Musica, videos, pinturas, cursos y libros. Todo el material que necesitas
-            para profundizar en el Bhakti yoga.
-          </p>
+        <div class="row mt-4">
+            <div class="item col-12 col-md-6 col-lg-4">
+                <div class="item-wrapper">
+                    <div class="item-img">
+                        <img src="/assets/quienes-somos.webp" alt="Quienes somos">
+                    </div>
+                    <div class="item-content">
+                        <h5 class="item-title display-5"><strong>Quienes somos</strong></h5>
+                        <h6 class="item-subtitle display-7 mt-1">Estamos aqui para servirte en tu exploracion del bhakti yoga.</h6>
+                    </div>
+                    <div class="item-footer mt-2"><a href="/estatutos/" class="btn item-btn btn-info display-7">Saber mas &gt;</a></div>
+                </div>
+            </div>
+            <div class="item col-12 col-md-6 col-lg-4">
+                <div class="item-wrapper">
+                    <div class="item-img">
+                        <img src="/assets/temple.jpg" alt="Contenido">
+                    </div>
+                    <div class="item-content">
+                        <h5 class="item-title display-5"><strong>Contenido</strong></h5>
+                        <h6 class="item-subtitle display-7 mt-1">Un universo de recursos: videos, fotos, musica, cursos gratuitos, manuales y mucho mas.</h6>
+                    </div>
+                    <div class="item-footer mt-2"><a href="/contenido/" class="btn item-btn btn-warning display-7">Llevame &gt;</a></div>
+                </div>
+            </div>
+            <div class="item col-12 col-md-6 col-lg-4">
+                <div class="item-wrapper">
+                    <div class="item-img">
+                        <img src="/assets/mbr-5.jpg" alt="Libreria">
+                    </div>
+                    <div class="item-content">
+                        <h5 class="item-title display-5"><strong>Libreria</strong></h5>
+                        <h6 class="item-subtitle display-7 mt-1">Desde el famoso Bhagavad-gita hasta un libro de Cocina, tienes para elegir.</h6>
+                    </div>
+                    <div class="item-footer mt-2"><a href="/libreria/" class="btn item-btn btn-success display-7">Muestrame &gt;</a></div>
+                </div>
+            </div>
         </div>
-      </a>
-
-      <a href="/libreria/" class="feature-card">
-        <div
-          class="feature-card__image"
-          style="background-image: url('/assets/mbr-5.jpg');"
-          role="img"
-          aria-label="Libreria de Bhakti yoga"
-        ></div>
-        <div class="feature-card__body">
-          <h3 class="feature-card__title">Libreria</h3>
-          <p class="feature-card__text">
-            Descubre los libros clasicos del Bhakti yoga: Bhagavad-gita,
-            Srimad-Bhagavatam y muchos mas.
-          </p>
-        </div>
-      </a>
-
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ===== Section 2: CTA Banner ===== -->
-<section class="home-section home-section--cta" aria-labelledby="cta-heading">
-  <div class="container">
-    <div class="cta-banner">
-      <h2 id="cta-heading">Te gusta lo que hacemos?</h2>
-      <p>Unete a nuestro canal de Telegram para estar al dia con las novedades, eventos y contenido nuevo.</p>
-      <a href="{{ contact_telegram }}" class="btn btn--primary" target="_blank" rel="noopener noreferrer">
-        Unirse a Telegram
-      </a>
+  <section class="contacts1" id="contacts1-p">
+    <div class="container">
+        <div class="mbr-section-head">
+            <h3 class="display-2 text-center mb-0">
+                <strong>Conocenos</strong></h3>
+        </div>
+        <div class="row justify-content-center mt-4">
+            <div class="card col-12 col-lg-6">
+                <div class="card-wrapper">
+                    <div class="card-box text-center">
+                        <div class="image-wrapper">
+                            <span class="contact-icon" style="color: rgb(34, 153, 170);">&#9993;</span>
+                        </div>
+                        <h5 class="link display-7"><a href="mailto:{{ contact_email }}" class="text-success-custom">Email</a></h5>
+                    </div>
+                </div>
+            </div>
+            <div class="card col-12 col-lg-6">
+                <div class="card-wrapper">
+                    <div class="card-box text-center">
+                        <div class="image-wrapper">
+                            <span class="contact-icon" style="color: rgb(34, 165, 229);">&#9992;</span>
+                        </div>
+                        <h5 class="link display-7"><a href="{{ contact_telegram }}" class="text-info-custom" target="_blank" rel="noopener noreferrer">Telegram</a></h5>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</section>
+  </section>
 
-{% endblock %}
+  <div class="site-footer-bar">
+    <p>Hecho con amor por la gente de&nbsp;</p>
+    <a href="/">bhaktiyoga.es</a>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
