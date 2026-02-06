@@ -16,7 +16,8 @@ from config import (
     MAPA_DIR, TEMPLATES_DIR, OUTPUT_DIR, STATIC_DIR,
     MAIN_NAV, SITE_NAME, SITE_TAGLINE, SITE_CIF, SITE_LANG,
     SITE_URL, CONTACT_EMAIL, CONTACT_TELEGRAM, HUB_SECTIONS, FEATURED_IMAGES,
-    MANUAL_CARD_COVERS, CONTENT_APPEND,
+    MANUAL_CARD_COVERS, CONTENT_APPEND, CONTENT_REMOVE_IDS,
+    IMAGE_LINK_REWRITE,
 )
 from slugify_pages import build_slug_map
 from assets_copy import build_asset_map, copy_all_assets, copy_existing_assets, copy_static_files
@@ -196,6 +197,33 @@ def main():
                     f'</figure>'
                 )
                 content = portrait_html + content
+
+            # Remove specific elements by ID for certain pages
+            if slug in CONTENT_REMOVE_IDS:
+                from bs4 import BeautifulSoup
+                soup = BeautifulSoup(content, 'html.parser')
+                for elem_id in CONTENT_REMOVE_IDS[slug]:
+                    tag = soup.find(id=elem_id)
+                    if tag:
+                        tag.decompose()
+                content = str(soup)
+
+            # Rewrite image links by element ID
+            if IMAGE_LINK_REWRITE:
+                from bs4 import BeautifulSoup
+                soup = BeautifulSoup(content, 'html.parser')
+                changed = False
+                for elem_id, new_url in IMAGE_LINK_REWRITE.items():
+                    fig = soup.find(id=elem_id)
+                    if fig:
+                        a_tag = fig.find('a')
+                        if a_tag:
+                            a_tag['href'] = new_url
+                            a_tag['target'] = '_blank'
+                            a_tag['rel'] = ['noopener', 'noreferrer']
+                            changed = True
+                if changed:
+                    content = str(soup)
 
             # Append extra content for specific pages
             if slug in CONTENT_APPEND:

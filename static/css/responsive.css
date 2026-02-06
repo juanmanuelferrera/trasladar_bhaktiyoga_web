@@ -79,9 +79,10 @@
     font-size: 1.625rem;
   }
 
-  /* -- Footer grid: keep 3 columns, tighter gap -- */
+  /* -- Footer grid: keep 4 columns, tighter gap -- */
   .footer-grid {
-    gap: 2rem;
+    grid-template-columns: 1.3fr 1fr 0.7fr;
+    gap: 1.5rem;
   }
 
   /* -- Feature grid: 2 columns -- */
@@ -164,6 +165,7 @@
     padding: 0.875rem 0;
     font-size: 0.9375rem;
     border-bottom: 1px solid var(--divider);
+    touch-action: manipulation;
   }
 
   .main-nav > ul > li:last-child > a {
@@ -176,21 +178,22 @@
   .main-nav .dropdown {
     position: static;
     opacity: 1;
-    visibility: hidden;
+    visibility: visible;
     transform: none;
     box-shadow: none;
     border-radius: 0;
     padding: 0 0 0 1rem;
     background-color: transparent;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease, visibility 0.3s ease;
+    display: none;
   }
 
-  /* Mobile dropdown toggle: tap to expand */
-  .main-nav .has-dropdown.dropdown-open > .dropdown {
-    visibility: visible;
-    max-height: 500px;
+  /* Mobile: show all dropdowns expanded (no toggle needed) */
+  .main-nav .has-dropdown > .dropdown {
+    display: block;
+  }
+
+  .main-nav .dropdown-arrow {
+    display: none;
   }
 
   .main-nav .has-dropdown.dropdown-open .dropdown-arrow {

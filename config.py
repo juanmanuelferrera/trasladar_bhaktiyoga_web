@@ -35,15 +35,15 @@ MAIN_NAV = [
             {"label": "Srila Prabhupada", "url": "/a-c-bhaktivedanta-swami-prabhupada/"},
         ],
     },
-    {
-        "label": "Eventos",
-        "url": "/eventos/",
-        "children": [
-            {"label": "Conferencias", "url": "/conferencias/"},
-            {"label": "Talleres", "url": "/talleres/"},
-            {"label": "Eventos", "url": "/eventos/"},
-        ],
-    },
+    # {
+    #     "label": "Eventos",
+    #     "url": "/eventos/",
+    #     "children": [
+    #         {"label": "Conferencias", "url": "/conferencias/"},
+    #         {"label": "Talleres", "url": "/talleres/"},
+    #         {"label": "Eventos", "url": "/eventos/"},
+    #     ],
+    # },
     {
         "label": "Comunidad",
         "url": "/estatutos/",
@@ -103,6 +103,38 @@ CONTENT_APPEND = {
         '<span class="external-link-card__label">Comprar en Amazon</span>'
         '</a>'
     ),
+    "/curso-de-bhakti-yoga/": (
+        '<div style="text-align:center">'
+        '<a href="https://a.co/d/0dUZk2So" class="external-link-card" '
+        'target="_blank" rel="noopener noreferrer">'
+        '<span class="external-link-card__icon">📖</span>'
+        '<span class="external-link-card__label">Comprar en Amazon</span>'
+        '</a>'
+        '</div>'
+    ),
+    "/asistencia/": (
+        '<p>📥 <a id="eml" href="#" class="obf-email"></a></p>'
+        '<script>'
+        '(function(){'
+        'var a="info",b="bhaktiyoga",c="es";'
+        'var e=a+"@"+b+"."+c;'
+        'var el=document.getElementById("eml");'
+        'el.href="mai"+"lto:"+e;'
+        'el.textContent=e;'
+        '})()'
+        '</script>'
+    ),
+}
+
+# Rewrite link hrefs on images by element ID → new URL
+IMAGE_LINK_REWRITE = {
+    "ca1994d8-f25f-4817-9e2a-08661404e42a": "https://a.co/d/0dUZk2So",
+}
+
+# HTML element IDs to remove from specific pages (by slug)
+CONTENT_REMOVE_IDS = {
+    "/talleres/": ["4a23cf88-d82a-4dba-b179-62dd99fdad86"],
+    "/asistencia/": ["bf8eeb85-e882-4f01-8998-9e4463524f60"],
 }
 
 # Pages to skip (not public)

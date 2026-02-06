@@ -22,25 +22,4 @@
             }
         }
     });
-
-    // Dropdown toggle for touch devices
-    var dropdowns = document.querySelectorAll('.has-dropdown > a');
-    dropdowns.forEach(function(link) {
-        link.addEventListener('click', function(e) {
-            if (window.innerWidth <= 768) {
-                var parent = this.parentElement;
-                var isOpen = parent.classList.contains('dropdown-open');
-
-                // Close all other dropdowns
-                document.querySelectorAll('.has-dropdown').forEach(function(el) {
-                    el.classList.remove('dropdown-open');
-                });
-
-                if (!isOpen) {
-                    e.preventDefault();
-                    parent.classList.add('dropdown-open');
-                }
-            }
-        });
-    });
 })();
