@@ -17,7 +17,7 @@ from config import (
     MAIN_NAV, SITE_NAME, SITE_TAGLINE, SITE_CIF, SITE_LANG,
     SITE_URL, CONTACT_EMAIL, CONTACT_TELEGRAM, HUB_SECTIONS, FEATURED_IMAGES,
     MANUAL_CARD_COVERS, CONTENT_APPEND, CONTENT_REMOVE_IDS,
-    IMAGE_LINK_REWRITE,
+    IMAGE_LINK_REWRITE, CONTENT_REPLACE_IDS, SKIP_PAGES, SKIP_SLUGS,
 )
 from slugify_pages import build_slug_map
 from assets_copy import build_asset_map, copy_all_assets, copy_existing_assets, copy_static_files
@@ -35,6 +35,25 @@ def _extract_notion_id_from_url(url):
     return None
 
 
+def _build_amazon_map(file_map, slug_map):
+    """Pre-scan Notion HTML to extract Amazon links per page."""
+    amazon_map = {}  # slug -> amazon_url
+    for notion_id, file_path in file_map.items():
+        slug = slug_map.get(notion_id, '')
+        if not slug:
+            continue
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+        urls = re.findall(
+            r'https?://(?:www\.)?amazon\.[a-z.]+/dp/[A-Z0-9]+'
+            r'|https?://(?:www\.)?amazon\.[a-z.]+/[^\s"<>]+/dp/[A-Z0-9]+',
+            content
+        )
+        if urls:
+            amazon_map[slug] = urls[0].replace('&amp;', '&')
+    return amazon_map
+
+
 def _build_cover_map(file_map, asset_map):
     """Pre-scan all pages to build {notion_id: image_url} map.
 
@@ -49,6 +68,15 @@ def _build_cover_map(file_map, asset_map):
         matches = re.findall(
             r'<img\s+class="page-cover-image"\s+src="([^"]+)"', content
         )
+
+        # Fallback: first <img> in body content (for pages without cover)
+        if not matches:
+            matches = re.findall(
+                r'<img\s[^>]*src="([^"]+)"', content
+            )
+            # Filter out tiny icons/emojis
+            matches = [m for m in matches if not m.endswith('.svg')]
+
         if not matches:
             continue
 
@@ -105,6 +133,13 @@ def main():
     cover_map.update(MANUAL_CARD_COVERS)
     print(f"  Found {len(cover_map)} pages with cover images")
 
+    # Step 3c: Build Amazon link map from Notion sources
+    print("  Building Amazon link map...")
+    amazon_map = _build_amazon_map(file_map, slug_map)
+    # Manual Amazon links not in Notion
+    amazon_map["/libreria/espanol/elevandose-a-la-conciencia-de-krsna/"] = "https://www.amazon.es/dp/B0BMW8F43N"
+    print(f"  Found {len(amazon_map)} pages with Amazon links")
+
     # Step 4: Copy static files (CSS, JS)
     print("\n[4/7] Copying static files...")
     copy_static_files()
@@ -137,6 +172,11 @@ def main():
 
         slug = slug_map[notion_id]
         title = title_map.get(notion_id, 'Sin título')
+
+        if any(skip in title for skip in SKIP_PAGES):
+            continue
+        if slug in SKIP_SLUGS:
+            continue
 
         try:
             # Read source HTML
@@ -188,6 +228,13 @@ def main():
                     if new_url:
                         card['url'] = new_url
 
+            # Override card URLs with Amazon links where available
+            for card in cards:
+                card_url = card.get('url', '')
+                if card_url in amazon_map:
+                    card['url'] = amazon_map[card_url]
+                    card['external'] = True
+
             # Inject featured portrait image if configured
             if slug in FEATURED_IMAGES:
                 fi = FEATURED_IMAGES[slug]
@@ -208,6 +255,20 @@ def main():
                         tag.decompose()
                 content = str(soup)
 
+            # Replace elements by ID with new HTML
+            if CONTENT_REPLACE_IDS:
+                from bs4 import BeautifulSoup
+                soup = BeautifulSoup(content, 'html.parser')
+                changed = False
+                for elem_id, new_html in CONTENT_REPLACE_IDS.items():
+                    tag = soup.find(id=elem_id)
+                    if tag:
+                        new_tag = BeautifulSoup(new_html, 'html.parser')
+                        tag.replace_with(new_tag)
+                        changed = True
+                if changed:
+                    content = str(soup)
+
             # Rewrite image links by element ID
             if IMAGE_LINK_REWRITE:
                 from bs4 import BeautifulSoup
@@ -224,6 +285,18 @@ def main():
                             changed = True
                 if changed:
                     content = str(soup)
+
+            # Auto-inject Amazon buy button from Notion data
+            if slug in amazon_map and slug not in CONTENT_APPEND:
+                amazon_url = amazon_map[slug]
+                content += (
+                    '<div style="text-align:center">'
+                    f'<a href="{amazon_url}" class="external-link-card" '
+                    'target="_blank" rel="noopener noreferrer">'
+                    '<span class="external-link-card__icon">📖</span>'
+                    '<span class="external-link-card__label">Comprar en Amazon</span>'
+                    '</a></div>'
+                )
 
             # Append extra content for specific pages
             if slug in CONTENT_APPEND:
@@ -256,6 +329,7 @@ def main():
                 page_type='hub' if page_data['is_hub'] else 'article',
                 breadcrumb=breadcrumb,
                 current_section=current_section,
+                slug=slug,
                 cards=cards,
                 meta_description=meta_description,
                 canonical_url=canonical_url,
@@ -284,6 +358,7 @@ def main():
         rendered = template.render(
             title='Inicio',
             current_section='',
+            slug='/',
             breadcrumb=[],
             cover_image=None,
             page_type='home',

@@ -22,7 +22,7 @@
   {% if cards %}
   <div class="card-grid" role="list">
     {% for card in cards %}
-    <a href="{{ card.url }}" class="card" role="listitem">
+    <a href="{{ card.url }}" class="card" role="listitem"{% if card.external %} target="_blank" rel="noopener noreferrer"{% endif %}>
       {% if card.image %}
       <div
         class="card-image"

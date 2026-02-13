@@ -25,38 +25,46 @@ CONTACT_TELEGRAM = "https://t.me/mishradas"
 MAIN_NAV = [
     {"label": "Inicio", "url": "/", "children": []},
     {
+        "label": "Nosotros",
+        "url": "/quienes-sois/",
+        "children": [
+            {"label": "Quiénes somos", "url": "/quienes-sois/"},
+            {"label": "Preguntas frecuentes", "url": "/preguntas-frecuentes/"},
+            {"label": "Estatutos", "url": "/estatutos/"},
+            {"label": "Srila Prabhupada", "url": "/a-c-bhaktivedanta-swami-prabhupada/"},
+        ],
+    },
+    {
         "label": "Enseñanzas",
         "url": "/contenido/",
         "children": [
             {"label": "Contenido", "url": "/contenido/"},
             {"label": "Blog", "url": "/blog/"},
-            {"label": "Librería", "url": "/libreria/"},
             {"label": "Curso de Bhakti Yoga", "url": "/curso-de-bhakti-yoga/"},
-            {"label": "Srila Prabhupada", "url": "/a-c-bhaktivedanta-swami-prabhupada/"},
-        ],
-    },
-    # {
-    #     "label": "Eventos",
-    #     "url": "/eventos/",
-    #     "children": [
-    #         {"label": "Conferencias", "url": "/conferencias/"},
-    #         {"label": "Talleres", "url": "/talleres/"},
-    #         {"label": "Eventos", "url": "/eventos/"},
-    #     ],
-    # },
-    {
-        "label": "Comunidad",
-        "url": "/estatutos/",
-        "children": [
             {"label": "Glosario", "url": "/glosario/"},
             {"label": "Revista", "url": "/revista/"},
-            {"label": "La Casa de Krsna", "url": "/la-casa-de-krsna/"},
+        ],
+    },
+    {
+        "label": "Librería",
+        "url": "/libreria/",
+        "children": [
+            {"label": "Librería", "url": "/libreria/"},
             {"label": "Catálogo", "url": "/catalogo/"},
-            {"label": "Estatutos", "url": "/estatutos/"},
+        ],
+    },
+    {
+        "label": "Multimedia",
+        "url": "/contenido/musica/",
+        "children": [
+            {"label": "Música", "url": "/contenido/musica/"},
+            {"label": "Pinturas y fotos", "url": "/contenido/pinturas-y-fotos/"},
+            {"label": "Videos", "url": "/contenido/videos/"},
+            {"label": "Aprende Mrdanga", "url": "/contenido/aprende-mrdanga/"},
         ],
     },
     {"label": "Contacto", "url": "/asistencia/", "children": []},
-    {"label": "🇬🇧 EN", "url": "/en/", "children": []},
+    {"label": "EN", "url": "/en/", "children": [], "class": "nav-lang"},
 ]
 
 # Sections that are "hub" pages (use card grid layout)
@@ -124,6 +132,15 @@ CONTENT_APPEND = {
         '})()'
         '</script>'
     ),
+    "/libreria/espanol/elevandose-a-la-conciencia-de-krsna/": (
+        '<div style="text-align:center">'
+        '<a href="https://www.amazon.es/dp/B0BMW8F43N" class="external-link-card" '
+        'target="_blank" rel="noopener noreferrer">'
+        '<span class="external-link-card__icon">📖</span>'
+        '<span class="external-link-card__label">Comprar en Amazon</span>'
+        '</a>'
+        '</div>'
+    ),
 }
 
 # Rewrite link hrefs on images by element ID → new URL
@@ -131,9 +148,13 @@ IMAGE_LINK_REWRITE = {
     "ca1994d8-f25f-4817-9e2a-08661404e42a": "https://a.co/d/0dUZk2So",
 }
 
+# Replace elements by ID with new HTML
+CONTENT_REPLACE_IDS = {}
+
 # HTML element IDs to remove from specific pages (by slug)
 CONTENT_REMOVE_IDS = {
     "/talleres/": ["4a23cf88-d82a-4dba-b179-62dd99fdad86"],
+    "/contenido/libros-en-descarga/": ["9499b38c-3717-4f31-b43a-8c99bdde1205"],
     "/asistencia/": ["bf8eeb85-e882-4f01-8998-9e4463524f60"],
 }
 
@@ -141,4 +162,13 @@ CONTENT_REMOVE_IDS = {
 SKIP_PAGES = {
     "Se ha recibido tu donativo",
     "Algo ha salido mal con la transacción",
+    "La Casa de Krsna",
+}
+
+# Pages to hide by slug (duplicates, empty hubs)
+SKIP_SLUGS = {
+    "/conferencias/",       # empty, duplicate of /contenido/conferencias/
+    "/talleres/",           # empty hub
+    "/eventos/",            # empty hub
+    "/videos/",             # duplicate of /contenido/videos/
 }
