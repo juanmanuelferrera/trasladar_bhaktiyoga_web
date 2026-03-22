@@ -4,7 +4,7 @@ import os
 # Paths
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 NOTION_EXPORT_DIR = os.path.join(
-    BASE_DIR, "notion_full", "Export-c6d3c031-f0ff-4631-b482-cca26e5f9b70"
+    BASE_DIR, "notion_full", "Export-a551a276-a3ef-484b-93b8-9cbc32faddb9"
 )
 MAPA_DIR = os.path.join(NOTION_EXPORT_DIR, "Mapa de la web")
 EXISTING_ASSETS_DIR = os.path.join(BASE_DIR, "existing_assets")
